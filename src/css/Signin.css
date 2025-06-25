@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: rgb(231, 231, 231);
+}
+
+.loginBox {
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    padding: 60px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.header {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.loginSection {
+    align-items: center;
+    justify-content: center;
+}
+
+.idLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.passwordLabel {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input {
+    width: 100%;
+    max-width: 372px;
+    padding: 12px;
+    font-size: 14px;
+    margin-bottom: 24px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signin button, .signup button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.signin button {
+  background-color: #1ba5e6;
+  color: white;
+}
+
+.signup button {
+  background-color: transparent;
+  color: #0026ff;
+  text-decoration: underline;
+}
