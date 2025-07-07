@@ -1,8 +1,9 @@
-import { useState, useState } from "react";
+import { useState } from "react";
 
 const Signup = () => {
 
     const [username, setUserName] = useState("");
+    const [nickname, setNickname] = useState("");
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ const Signup = () => {
 
     // 에러를 담아낼 state
     const [userNameError, setUserNameError] = useState("");
+    const [nicknameError, setNicknameError] = useState("");
     const [passwordError, setPasswordError] = useState("");
     const [passwordCheckError, setPasswordCheckError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -37,6 +39,10 @@ const Signup = () => {
         }
 
         setUserNameError("");
+    }
+
+    const handleNicknameChange = () => {
+        
     }
 
     const handlePasswordChange = (text) => {
@@ -80,7 +86,20 @@ const Signup = () => {
 
     }
 
-    const handleEmailChange = () => {
+    const handleEmailChange = (text) => {
+        
+        setEmail(text);
+
+        if(email.trim()) {
+            setEmailError("필수 입력 항목입니다.");
+            return;
+        }
+        if(!emailRegex.test(email)) {
+            setEmailError("이메일 형식과 맞지 않습니다.");
+            return;
+        }
+
+        setEmailError("");
 
     }
 
@@ -95,6 +114,11 @@ const Signup = () => {
                         <p className="label">아이디</p>
                         <input className="input" type="text" value={ username } onChange={ handleUserNameChange } />
                         <p className="errormessage">{ userNameError }</p>
+                    </div>
+                    <div className="nicknameSection">
+                        <p className="label">닉네임</p>
+                        <input className="input" type="text" value={ nickname } onChange={ handleNicknameChange } />
+                        <p className="errormessage">{ nicknameError }</p>
                     </div>
                     <div className="passwordSection">
                         <p className="label">비밀번호</p>
