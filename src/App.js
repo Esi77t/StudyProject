@@ -8,6 +8,8 @@ import Blog from './pages/Blog';
 import MyPage from './pages/MyPage';
 import { DevBlogContext } from './context/DevBlogProvider';
 import { useContext } from 'react';
+import PostDetail from './pages/PostDetail';
+import Editor from './pages/Editor';
 
 function App() {
     
@@ -15,7 +17,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            {isLoggedIn && (
+            { isLoggedIn && (
                 <Header 
                     handleLogout={ handleLogout } 
                     headerRef={ headerRef } 
@@ -23,20 +25,25 @@ function App() {
                     isDarkMode={ isDarkMode } 
                 />
             )}
-            {isLoggedIn ? (
-                <Routes>
-                    <Route path="/blog" element={ <Blog /> } />
-                    <Route path="/devboard" element={ <DevBoard /> } />
-                    <Route path="/mypage" element={ <MyPage /> } />
-                    <Route path="*" element={ <Navigate to="/blog" replace /> } />
-                </Routes>
-            ) : (
-                <Routes>
-                    <Route path="/login" element={ <Signin setIsLoggedIn={ setIsLoggedIn } /> } />
-                    <Route path="/signup" element={ <Signup /> } />
-                    <Route path="*" element={ <Navigate to="/login" replace /> } />
-                </Routes>
-            )}
+            <div style={{ paddingTop: isLoggedIn ? '110px' : '0px' }}>
+                { isLoggedIn ? (
+                    <Routes>
+                        <Route path="/blog" element={ <Blog /> } />
+                        <Route path="/devboard" element={ <DevBoard /> } />
+                        <Route path="/devboard/write" element={<Editor />} />
+                        <Route path="/devboard/edit/:id" element={<Editor />} />
+                        <Route path="/devboard/:id" element={<PostDetail />} />
+                        <Route path="/mypage" element={ <MyPage /> } />
+                        <Route path="*" element={ <Navigate to="/blog" replace /> } />
+                    </Routes>
+                ) : (
+                    <Routes>
+                        <Route path="/login" element={ <Signin setIsLoggedIn={ setIsLoggedIn } /> } />
+                        <Route path="/signup" element={ <Signup /> } />
+                        <Route path="*" element={ <Navigate to="/login" replace /> } />
+                    </Routes>
+                )}
+            </div>
         </BrowserRouter>
     );
 }

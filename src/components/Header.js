@@ -40,7 +40,6 @@ const Header = () => {
                     <div className="logo-container">
                         <p className="logo">DevBlog</p>
                     </div>
-
                     <nav className="main-nav-container">
                         <ul className="nav-link">
                             <li><Link to="/blog" className={ isActive("/blog") ? "nav-button active" : "nav-button" }>나의 블로그</Link></li>

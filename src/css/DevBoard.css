@@ -161,7 +161,6 @@ body {
     background-color: #333;
     color: white;
     border: none;
-    border-radius: 8px;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
@@ -195,19 +194,24 @@ body.dark .search-container {
     border: 1px solid #555;
     background-color: #444;
 }
+
 body.dark .search-container:focus-within {
     border-color: #90caf9;
     box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.2);
 }
+
 body.dark .search-input {
     color: #f0f0f0;
 }
+
 body.dark .search-input::placeholder {
     color: #aaa;
 }
+
 body.dark .search-button svg {
     color: #ccc;
 }
+
 body.dark .search-button:hover svg {
     color: #f0f0f0;
 }

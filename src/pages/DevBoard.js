@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/DevBoard.css";
 
 const generateDummyPosts = (num) => {
+
     const dummy = [];
     for (let i = 1; i <= num; i++) {
         dummy.push({
@@ -17,6 +18,7 @@ const generateDummyPosts = (num) => {
 };
 
 const DevBoard = () => {
+    
     const navigate = useNavigate();
 
     const [allPosts, setAllPosts] = useState(generateDummyPosts(100));
