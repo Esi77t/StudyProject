@@ -10,7 +10,7 @@ const Signin = () => {
     const navigate = useNavigate();
 
     const handleSignin = () => {
-        console.log("아이디 : ", username, "비밀번호 : ", password)
+        navigate("/blog");
     }
 
     const handleSignup = () => {
@@ -21,7 +21,7 @@ const Signin = () => {
         <div className="container">
             <div className="loginBox">
                 <div className="header">
-                    로그인
+                    DevBlog
                 </div>
                 <div className="loginSection">
                     <p className="idLabel">아이디</p>
