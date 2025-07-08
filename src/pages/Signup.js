@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../css/Signup.css"
 import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Signup = ({ children }) => {
 
     // 기본 state
     const [username, setUserName] = useState("");

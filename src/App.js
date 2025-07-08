@@ -3,45 +3,33 @@ import Signin from './pages/Signin';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Header from './components/Header';
-import { useEffect, useRef, useState } from 'react';
 import DevBoard from './pages/DevBoard';
 import Blog from './pages/Blog';
 import MyPage from './pages/MyPage';
+import { DevBlogContext } from './context/DevBlogProvider';
+import { useContext } from 'react';
 
 function App() {
-
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const headerRef = useRef();
-
-    useEffect(() => {
-        if(isDarkMode) {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
-        }
-    }, [isDarkMode])
-
-    const toggleDarkMode = () => {
-        setIsDarkMode((prev) => !prev);
-    }
     
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-    }
+    const { isLoggedIn, setIsLoggedIn, handleLogout, isDarkMode, toggleDarkMode, headerRef } = useContext(DevBlogContext);
 
     return (
         <BrowserRouter>
-            { isLoggedIn ? (
-                <>
-                    <Header handleLogout={ handleLogout } headerRef={ headerRef } toggleDarkMode={ toggleDarkMode } isDarkMode={ isDarkMode } />
-                    <Routes>
-                        <Route path="/blog" element={ <Blog /> } />
-                        <Route path="/devboard" element={ <DevBoard /> } />
-                        <Route path="/mypage" element={ <MyPage /> } />
-                        <Route path="*" element={ <Navigate to="/blog" /> } />
-                    </Routes>
-                </>
+            {isLoggedIn && (
+                <Header 
+                    handleLogout={ handleLogout } 
+                    headerRef={ headerRef } 
+                    toggleDarkMode={ toggleDarkMode } 
+                    isDarkMode={ isDarkMode } 
+                />
+            )}
+            {isLoggedIn ? (
+                <Routes>
+                    <Route path="/blog" element={ <Blog /> } />
+                    <Route path="/devboard" element={ <DevBoard /> } />
+                    <Route path="/mypage" element={ <MyPage /> } />
+                    <Route path="*" element={ <Navigate to="/blog" replace /> } />
+                </Routes>
             ) : (
                 <Routes>
                     <Route path="/login" element={ <Signin setIsLoggedIn={ setIsLoggedIn } /> } />
