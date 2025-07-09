@@ -55,7 +55,7 @@ const DevBoard = () => {
                     <span className="post-header-author">작성자</span>
                     <span className="post-header-views">조회수</span>
                 </div>
-                {currentPosts.length > 0 ? (
+                { currentPosts.length > 0 ? (
                     currentPosts.map(post => (
                         <div key={ post.id } className="post-list-item" onClick={() => handlePostClick(post.id)}>
                             <span className="post-item-id">{ post.id }</span>

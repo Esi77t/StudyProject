@@ -29,7 +29,7 @@ const Blog = () => {
     };
 
     const handlePostClick = (postId) => {
-        navigate(`/devboard/${postId}`);
+        navigate(`/devboard/${ postId }`);
     };
 
     const handleSearch = () => {
@@ -38,6 +38,10 @@ const Blog = () => {
             post.author.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setPosts(filtered.slice(0, 10));
+    };
+
+    const handleMyPostsClick = () => {
+        navigate('/blog/myposts');
     };
 
     return (
@@ -54,6 +58,9 @@ const Blog = () => {
                     <ul className="category-list">
                         <li className="category-item">아무거나</li>
                         <li className="category-item">얘기하기</li>
+                        <li className="category-mypost" onClick={ handleMyPostsClick }>
+                            내가 쓴 게시글
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,7 +75,7 @@ const Blog = () => {
                                 className="search-input"
                                 value={ searchTerm }
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                onKeyPress={(e) => { if (e.key === 'Enter') handleSearch(); }}
+                                onKeyPress={(e) => { if (e.key === 'Enter') handleSearch()}}
                             />
                             <button className="search-button" onClick={handleSearch}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>

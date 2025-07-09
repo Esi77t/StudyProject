@@ -51,13 +51,15 @@
 
 .category-area {
     padding-top: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .category-header {
     font-size: 18px;
     font-weight: 600;
     color: #222;
-    margin-top: 0;
+    margin-top: -20px;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -74,10 +76,17 @@
     padding: 10px 0;
     cursor: pointer;
     transition: color 0.2s ease;
+    text-align: center;
 }
 
 .category-item:hover {
     color: #222;
+}
+
+.category-mypost{
+    text-align: center;
+    font-weight: 600;
+    padding-top: 30px;
 }
 
 .blog-main-content {
@@ -227,7 +236,6 @@
     background-color: #333;
     color: white;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
@@ -266,6 +274,7 @@ body.dark .profile-image-placeholder {
     background-color: #555;
     color: #ccc;
 }
+
 
 body.dark .blog-title,
 body.dark .category-header {

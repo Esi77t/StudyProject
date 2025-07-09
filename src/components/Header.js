@@ -13,23 +13,23 @@ const Header = () => {
     const isActive = (path) => currentPath.startsWith(path);
     
     return(
-        <header className="top-nav" ref={headerRef}>
+        <header className="top-nav" ref={ headerRef }>
             <div className="top-utility-bar">
                 <div className="top-utility-wrapper">
-                    {isLoggedIn ? (
+                    { isLoggedIn ? (
                         <div className="top-actions">
                             <Link to="/mypage" className="action-link">마이페이지</Link>
-                            <button onClick={handleLogout} className="action-link">로그아웃</button>
-                            <button onClick={toggleDarkMode} className="dark-mode-toggle-button">
-                                {isDarkMode ? "라이트 모드" : "다크 모드"}
+                            <button onClick={ handleLogout } className="action-link">로그아웃</button>
+                            <button onClick={ toggleDarkMode } className="dark-mode-toggle-button">
+                                { isDarkMode ? "라이트 모드" : "다크 모드" }
                             </button>
                         </div>
                     ) : (
                         <div className="top-actions">
                             <Link to="/login" className="action-link">로그인</Link>
                             <Link to="/signup" className="action-link">회원가입</Link>
-                            <button onClick={toggleDarkMode} className="dark-mode-toggle-button">
-                                {isDarkMode ? "라이트 모드" : "다크 모드"}
+                            <button onClick={ toggleDarkMode } className="dark-mode-toggle-button">
+                                { isDarkMode ? "라이트 모드" : "다크 모드" }
                             </button>
                         </div>
                     )}

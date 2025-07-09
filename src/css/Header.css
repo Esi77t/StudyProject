@@ -76,8 +76,6 @@ body {
     color: #000000;
 }
 
-
-/* 2. 메인 헤더 (로고, 메뉴) - 이전과 동일 */
 .main-header-content-area {
     width: 100%;
     height: 70px;
@@ -97,13 +95,11 @@ body {
     height: 100%;
 }
 
-/* 로고 컨테이너 */
 .logo-container {
     display: flex;
     align-items: center;
 }
 
-/* 로고 */
 .logo {
     font-size: 1.6rem;
     font-weight: 700;
@@ -112,7 +108,6 @@ body {
     margin: 0;
 }
 
-/* 내비 메뉴 컨테이너 */
 .main-nav-container {
     display: flex;
     justify-content: center;
@@ -121,7 +116,6 @@ body {
     margin: 0 20px;
 }
 
-/* 내비 메뉴 (ul) */
 .nav-link {
     display: flex;
     gap: 40px;
@@ -140,13 +134,16 @@ body {
     transition: color 0.2s ease;
     white-space: nowrap;
 }
+
 .nav-button.active {
     color: #222222;
     font-weight: 600;
 }
+
 .nav-button:hover {
     color: #000000;
 }
+
 .nav-button.active::after {
     content: "";
     position: absolute;
@@ -158,8 +155,6 @@ body {
     border-radius: 0;
 }
 
-
-/* --- 다크 모드 스타일 --- */
 body.dark {
     background-color: #1e1e1e;
     color: #f0f0f0;
@@ -177,12 +172,15 @@ body.dark .top-utility-bar {
 body.dark .top-actions .action-link {
     color: #cccccc;
 }
+
 body.dark .top-actions .action-link:hover {
     color: #ffffff;
 }
+
 body.dark .dark-mode-toggle-button {
     color: #cccccc;
 }
+
 body.dark .dark-mode-toggle-button:hover {
     color: #ffffff;
 }
