@@ -259,6 +259,7 @@
 body.dark .blog-page-container {
     background-color: #2e2e2e;
     color: #e0e0e0;
+    border-radius: 8px;
 }
 
 body.dark .blog-sidebar {

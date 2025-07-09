@@ -1,10 +1,15 @@
-import Bold from "@tiptap/extension-bold";
-import Italic from "@tiptap/extension-italic";
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import "../css/Editor.css"
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableHeader from "@tiptap/extension-table-header";
+import TableCell from "@tiptap/extension-table-cell";
+import { MdAdd, MdCode, MdDelete, MdFormatBold, MdFormatItalic, MdFormatListBulleted, MdFormatListNumbered, MdImage, MdLink, MdLinkOff, MdRemove, MdTableChart } from "react-icons/md";
 
 const dummyPosts = [
     {
@@ -20,7 +25,6 @@ const dummyPosts = [
 ];
 
 const Editor = () => {
-    
     const { id } = useParams();
     const navigate = useNavigate();
     const isEditMode = !!id;
@@ -29,14 +33,28 @@ const Editor = () => {
     const [title, setTitle] = useState('');
     const [initialContent, setInitialContent] = useState('');
 
-    // TipTap 에디터 설정
     const editor = useEditor({
         extensions: [
             StarterKit,
+            Image.configure({
+                inline: true,
+                allowBase64: true,
+            }),
+            Link.configure({
+                openOnClick: false,
+                autolink: true,
+            }),
+            Table.configure({
+                resizable: true,
+            }),
+            TableRow,
+            TableHeader,
+            TableCell,
         ],
         content: initialContent,
         onUpdate: ({ editor }) => {
-
+            // const html = editor.getHTML();
+            // console.log(html);
         },
         editorProps: {
             attributes: {
@@ -61,6 +79,54 @@ const Editor = () => {
         }
     }, [isEditMode, postId, navigate, editor]);
 
+    // ★★★ 새로운 기능 함수들 ★★★
+    const addImage = () => {
+        const url = window.prompt('이미지 URL을 입력하세요:'); // 이미지 URL 입력
+        if (url) {
+            editor.chain().focus().setImage({ src: url }).run();
+        }
+    };
+
+    const setLink = () => {
+        const url = window.prompt('링크 URL을 입력하세요:', editor.getAttributes('link').href);
+        if (url === null) return; // 프롬프트 취소 시
+        if (url === '') { // URL이 비어있으면 링크 제거
+            editor.chain().focus().extendMarkRange('link').unsetLink().run();
+            return;
+        }
+        editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    };
+
+    const unsetLink = () => {
+        editor.chain().focus().unsetLink().run();
+    };
+
+    const addTable = () => {
+        editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+    };
+
+    const deleteTable = () => {
+        editor.chain().focus().deleteTable().run();
+    };
+
+    const addRowAfter = () => {
+        editor.chain().focus().addRowAfter().run();
+    };
+
+    const deleteRow = () => {
+        editor.chain().focus().deleteRow().run();
+    };
+
+    const addColumnAfter = () => {
+        editor.chain().focus().addColumnAfter().run();
+    };
+
+    const deleteColumn = () => {
+        editor.chain().focus().deleteColumn().run();
+    };
+
+
+    // 에디터가 아직 로드되지 않았을 때
     if (!editor) {
         return null;
     }
@@ -112,33 +178,60 @@ const Editor = () => {
             <div className="form-group">
                 <label>내용</label>
                 <div className="tiptap-toolbar">
-                    <button onClick={() => editor.chain().focus().toggleBold().run()} className={ editor.isActive('bold') ? 'is-active' : '' }>
-                        Bold
+                    <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'is-active' : ''}>
+                        <MdFormatBold />
                     </button>
-                    <button onClick={() => editor.chain().focus().toggleItalic().run()} className={ editor.isActive('italic') ? 'is-active' : '' }>
-                        Italic
+                    <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'is-active' : ''}>
+                        <MdFormatItalic />
                     </button>
-                    <button onClick={() => editor.chain().focus().setParagraph().run()} className={ editor.isActive('paragraph') ? 'is-active' : '' }>
-                        Paragraph
+                    <button onClick={() => editor.chain().focus().setParagraph().run()} className={editor.isActive('paragraph') ? 'is-active' : ''}>
+                        P 
                     </button>
-                    <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={ editor.isActive('bulletList') ? 'is-active' : '' }>
-                        Bullet List
+                    <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'is-active' : ''}>
+                        <MdFormatListBulleted />
                     </button>
-                    <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={ editor.isActive('orderedList') ? 'is-active' : '' }>
-                        Ordered List
+                    <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'is-active' : ''}>
+                        <MdFormatListNumbered />
                     </button>
-                    <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={ editor.isActive('codeBlock') ? 'is-active' : '' }>
-                        Code Block
+                    <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
+                        <MdCode />
+                    </button>
+                    <button onClick={addImage}>
+                        <MdImage />
+                    </button>
+                    <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
+                        <MdLink />
+                    </button>
+                    <button onClick={unsetLink} disabled={!editor.isActive('link')}>
+                        <MdLinkOff />
+                    </button>
+                    <button onClick={addTable}>
+                        <MdTableChart />
+                    </button>
+                    <button onClick={addRowAfter} disabled={!editor.isActive('table')}>
+                        <MdAdd /> 행 
+                    </button>
+                    <button onClick={deleteRow} disabled={!editor.isActive('table')}>
+                        <MdRemove /> 행 
+                    </button>
+                    <button onClick={addColumnAfter} disabled={!editor.isActive('table')}>
+                        <MdAdd /> 열 
+                    </button>
+                    <button onClick={deleteColumn} disabled={!editor.isActive('table')}>
+                        <MdRemove /> 열 
+                    </button>
+                    <button onClick={deleteTable} disabled={!editor.isActive('table')}>
+                        <MdDelete /> 표 
                     </button>
                 </div>
-                <EditorContent editor={ editor } className="tiptap-editor-wrapper" />
+                <EditorContent editor={editor} className="tiptap-editor-wrapper" />
             </div>
 
             <div className="editor-actions">
-                <button onClick={ handleSubmit } className="submit-button">
-                    {isEditMode ? '수정 완료' : '작성 완료'}
+                <button onClick={handleSubmit} className="submit-button">
+                    { isEditMode ? '수정 완료' : '작성 완료' }
                 </button>
-                <button onClick={ handleCancel } className="cancel-button">
+                <button onClick={handleCancel} className="cancel-button">
                     취소
                 </button>
             </div>

@@ -4,6 +4,7 @@
     padding: 50px;
     background-color: #ffffff;
     border-radius: 12px;
+    box-shadow: none;
     color: #333;
     min-height: 600px;
     box-sizing: border-box;
@@ -51,7 +52,7 @@
 
 .title-input:focus {
     border-color: #a0a0a0;
-    box-shadow: 0 0 0 2px rgba(160, 160, 160, 0.2);
+    box-shadow: none;
 }
 
 .tiptap-toolbar {
@@ -159,6 +160,46 @@
     border-radius: 0;
 }
 
+.tiptap-editor-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em 0;
+    border-radius: 5px;
+    box-shadow: none;
+}
+
+.tiptap-editor-content a {
+    color: #3498db;
+    text-decoration: underline;
+}
+
+.tiptap-editor-content a:hover {
+    color: #2980b9;
+}
+
+.tiptap-editor-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+.tiptap-editor-content th,
+.tiptap-editor-content td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.tiptap-editor-content th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+}
+
+.tiptap-editor-content .selectedCell {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
 .editor-actions {
     display: flex;
     justify-content: flex-end;
@@ -172,10 +213,12 @@
 .cancel-button {
     padding: 12px 20px;
     border: none;
+    border-radius: 0;
     cursor: pointer;
     font-size: 15px;
     font-weight: 600;
     transition: background-color 0.2s ease;
+    box-shadow: none;
 }
 
 .submit-button {
@@ -196,7 +239,6 @@
     background-color: #777;
 }
 
-/* --- 다크 모드 스타일 --- */
 body.dark .editor-container {
     background-color: #3a3a3a;
     color: #e0e0e0;
@@ -222,7 +264,7 @@ body.dark .title-input::placeholder {
 
 body.dark .title-input:focus {
     border-color: #90caf9;
-    box-shadow: 0 0 0 2px rgba(144, 202, 249, 0.2);
+    box-shadow: none;
 }
 
 body.dark .tiptap-toolbar {
@@ -272,6 +314,32 @@ body.dark .tiptap-editor-content code {
     background-color: #3e3e3e;
 }
 
+
+body.dark .tiptap-editor-content img {
+    box-shadow: none;
+}
+
+body.dark .tiptap-editor-content a {
+    color: #90caf9;
+}
+
+body.dark .tiptap-editor-content a:hover {
+    color: #b3e5fc;
+}
+
+body.dark .tiptap-editor-content th,
+body.dark .tiptap-editor-content td {
+    border: 1px solid #777;
+}
+
+body.dark .tiptap-editor-content th {
+    background-color: #5a5a5a;
+}
+
+body.dark .tiptap-editor-content .selectedCell {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 body.dark .editor-actions {
     border-top: 1px solid #555;
 }
@@ -289,6 +357,7 @@ body.dark .cancel-button {
     background-color: #777;
     color: #f0f0f0;
 }
+
 body.dark .cancel-button:hover {
     background-color: #888;
 }
