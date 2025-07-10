@@ -1,6 +1,6 @@
 import './App.css';
 import Signin from './pages/Signin';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Header from './components/Header';
 import DevBoard from './pages/DevBoard';
@@ -10,7 +10,6 @@ import { useContext } from 'react';
 import PostDetail from './pages/PostDetail';
 import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
-import ArknightsCalculator from './pages/ArknightsCalculator';
 
 function App() {
     
@@ -23,7 +22,6 @@ function App() {
                 <Routes>
                     <Route path="/login" element={ <Signin /> } />
                     <Route path="/signup" element={ <Signup /> } />
-                    <Route path="/arknights-calculator" element={ <ArknightsCalculator /> } />
                     <Route path="/devboard" element={ <DevBoard /> } />
                     <Route path="/devboard/:id" element={ <PostDetail /> } />
                     <Route path="/devobard/write" element={
@@ -41,7 +39,6 @@ function App() {
                             <Editor />
                         </PrivateRoute>
                     } />
-                    <Route path="/" element={ <Navigate to="/arknights-calculator" replace /> } />
                 </Routes>
             </div>
         </BrowserRouter>
