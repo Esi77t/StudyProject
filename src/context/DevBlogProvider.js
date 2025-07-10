@@ -1,4 +1,7 @@
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useMemo, useRef, useState } from "react";
+
+import { ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 
 const DevBlogContext = createContext();
 
@@ -11,16 +14,20 @@ const DevBlogProvider = ({ children }) => {
         return savedMode ? JSON.parse(savedMode) : false;
     });
 
-    const headerRef = useRef(null);
-
-    useEffect(() => {
-        if (isDarkMode) {
-            document.body.classList.add("dark");
-        } else {
-            document.body.classList.remove("dark");
+    const theme = useMemo(() => createTheme({
+        palette: {
+            mode: isDarkMode ? 'dark' : 'light',
+            background: {
+                default: isDarkMode ? '#1e1e1e' : '#f5f6f8',
+                paper: isDarkMode ? '#3a3a3a' : '#fff'
+            }
+        },
+        typography: {
+            fontFamily: "'Noto Sans KR', sans-serif",
         }
-        localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode)); // 상태 변경 시 로컬 스토리지에 저장
-    }, [isDarkMode]);
+    }))
+
+    const headerRef = useRef(null);
 
     const toggleDarkMode = () => {
         setIsDarkMode((prev) => !prev);
@@ -38,7 +45,10 @@ const DevBlogProvider = ({ children }) => {
 
     return(
         <DevBlogContext.Provider value={ contextValue }>
-            { children }
+            <ThemeProvider theme={ theme }>
+                <CssBaseline />
+                { children }
+            </ThemeProvider>
         </DevBlogContext.Provider>
     )
 }

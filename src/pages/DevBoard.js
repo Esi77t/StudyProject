@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/DevBoard.css";
+import { Container, Paper, Typography, TextField, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fab, Box, useScrollTrigger, Zoom } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
 
 const generateDummyPosts = (num) => {
 
@@ -28,7 +30,7 @@ const DevBoard = () => {
     const currentPosts = allPosts.slice(0, 20);
 
     const handleWriteClick = () => {
-        navigate('/devboard/write');
+        navigate('/devobard/write');
     };
 
     const handlePostClick = (postId) => {
@@ -36,40 +38,72 @@ const DevBoard = () => {
     };
 
     return (
-        <div className="devboard-container">
-            <div className="devboard-header">
-                <h2>Dev 게시판</h2>
-                <div className="board-controls">
-                    <div className="search-container">
-                        <input type="text" placeholder="검색어를 입력하세요." className="search-input" />
-                        <button className="search-button">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div className="post-list-table">
-                <div className="post-list-header">
-                    <span className="post-header-id">번호</span>
-                    <span className="post-header-title">글 제목</span>
-                    <span className="post-header-author">작성자</span>
-                    <span className="post-header-views">조회수</span>
-                </div>
-                { currentPosts.length > 0 ? (
-                    currentPosts.map(post => (
-                        <div key={ post.id } className="post-list-item" onClick={() => handlePostClick(post.id)}>
-                            <span className="post-item-id">{ post.id }</span>
-                            <span className="post-item-title">{ post.title }</span>
-                            <span className="post-item-author">{ post.author }</span>
-                            <span className="post-item-views">{ post.views }</span>
-                        </div>
-                    ))
-                ) : (
-                    <div className="no-posts">게시글이 없습니다.</div>
-                )}
-            </div>
-            <button className="write-button" onClick={ handleWriteClick }>글쓰기</button>
-        </div>
+        <Container maxWidth="lg" sx={{ my: 4 }}>
+            <Paper elevation={ 0 } sx={{ p: 4, display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 3, mb: 3 }}>
+                    <Typography variant="h4" component="h2" fontWeight={ 600 }>
+                        Dev 게시판
+                    </Typography>
+                    <Box>
+                        <TextField
+                            size="small"
+                            variant="outlined"
+                            placeholder="검색어를 입력하세요."
+                            InputProps={{
+                                endAdornment: (
+                                    <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
+                                        <SearchIcon />
+                                    </IconButton>
+                                ),
+                            }}
+                        />
+                    </Box>
+                </Box>
+                <TableContainer sx={{ mb: 8 }}>
+                    <Table stickyHeader aria-label="post list table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center" sx={{ width: '10%' }}>번호</TableCell>
+                                <TableCell align="left">글 제목</TableCell>
+                                <TableCell align="center" sx={{ width: '15%' }}>작성자</TableCell>
+                                <TableCell align="center" sx={{ width: '10%' }}>조회수</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {currentPosts.length > 0 ? (
+                                currentPosts.map((post) => (
+                                    <TableRow key={post.id} hover onClick={() => handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
+                                        <TableCell align="center">{ post.id }</TableCell>
+                                        <TableCell align="left">{ post.title }</TableCell>
+                                        <TableCell align="center">{ post.author }</TableCell>
+                                        <TableCell align="center">{ post.views }</TableCell>
+                                    </TableRow>
+                                ))
+                            ) : (
+                                <TableRow>
+                                    <TableCell colSpan={ 4 } align="center" sx={{ py: 10 }}>
+                                        게시글이 없습니다.
+                                    </TableCell>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <Fab
+                    color="primary"
+                    aria-label="write post"
+                    onClick={ handleWriteClick }
+                    sx={{
+                        position: 'sticky',
+                        bottom: 32,
+                        alignSelf: 'flex-end',
+                        mt: 2,
+                    }}
+                >
+                    <EditIcon />
+                </Fab>
+            </Paper>
+        </Container>
     );
 };
 

@@ -24,11 +24,7 @@ function App() {
                     <Route path="/signup" element={ <Signup /> } />
                     <Route path="/devboard" element={ <DevBoard /> } />
                     <Route path="/devboard/:id" element={ <PostDetail /> } />
-                    <Route path="/devobard/write" element={
-                        <PrivateRoute isLoggedIn={ isLoggedIn }>
-                            <Editor />
-                        </PrivateRoute>
-                    } />
+                    <Route path="/devobard/write" element={ <Editor /> } />
                     <Route path="/mypage" element={
                         <PrivateRoute isLoggedIn={ isLoggedIn }>
                             <MyPage />

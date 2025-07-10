@@ -1,6 +1,8 @@
-import { useState } from "react";
-import "../css/Signup.css"
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Box, TextField, Button, Typography, Container, Stack, InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material"
+import { DevBlogContext } from "../context/DevBlogProvider";
 
 const Signup = ({ children }) => {
 
@@ -32,6 +34,8 @@ const Signup = ({ children }) => {
     const passNumberRegex = /[0-9]/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const nameRegex = /^[가-힣a-zA-Z]{1,30}$/;
+
+    const { isDarkMode } = useContext(DevBlogContext);
 
     const handleUserNameChange = (e) => {
         
@@ -106,90 +110,87 @@ const Signup = ({ children }) => {
         navigate('/login');
     };
 
-    return (
-        <div className="container">
-            <div className="signupBox">
-                <div className="header">회원가입</div>
-                <div className="signupSection">
-                    <div className="input-group">
-                        <p className="label">아이디</p>
-                        <input className="input" type="text" value={ username } onChange={ handleUserNameChange } />
-                        { userNameError && <p className="errormessage">{ userNameError }</p> }
-                    </div>
-                    <div className="input-group">
-                        <p className="label">닉네임</p>
-                        <input className="input" type="text" value={ nickname } onChange={ handleNicknameChange } />
-                        { nicknameError && <p className="errormessage">{ nicknameError }</p> }
-                    </div>
-                    <div className="input-group">
-                        <p className="label">비밀번호</p>
-                        <div className="input-field-wrapper">
-                            <input
-                                className="input"
-                                type={ showPassword ? "text" : "password" }
-                                value={ password }
-                                onChange={ handlePasswordChange }
-                            />
-                            <button
-                                type="button"
-                                className="toggle-password-visibility"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                { showPassword ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px">
-                                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5zM12 4.5c-5 0-9.27 3.11-11 7.5 1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-3.12 0-5.65-2.22-6.52-5.5.87-3.28 3.4-5.5 6.52-5.5s5.65 2.22 6.52 5.5c-.87 3.28-3.4 5.5-6.52 5.5z"/>
-                                    </svg>
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px">
-                                        <path d="M12 6.5c-3.12 0-5.65 2.22-6.52 5.5.87 3.28 3.4 5.5 6.52 5.5s5.65-2.22 6.52-5.5c-.87-3.28-3.4-5.5-6.52-5.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-11.5c-5 0-9.27 3.11-11 7.5 1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-3.12 0-5.65-2.22-6.52-5.5.87-3.28 3.4-5.5 6.52-5.5s5.65 2.22 6.52 5.5c-.87 3.28-3.4 5.5-6.52 5.5z"/>
-                                    </svg>
-                                )}
-                            </button>
-                        </div>
-                        { passwordError && <p className="errormessage">{ passwordError }</p> }
-                    </div>
-                    <div className="input-group">
-                        <p className="label">비밀번호 확인</p>
-                        <div className="input-field-wrapper">
-                            <input
-                                className="input"
-                                type={ showPasswordCheck ? "text" : "password" }
-                                value={ passwordCheck }
-                                onChange={ handlePasswordCheckChange }
-                            />
-                            <button
-                                type="button"
-                                className="toggle-password-visibility"
-                                onClick={() => setShowPasswordCheck(!showPasswordCheck)}
-                            >
-                                { showPasswordCheck ? (
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px">
-                                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5zM12 4.5c-5 0-9.27 3.11-11 7.5 1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-3.12 0-5.65-2.22-6.52-5.5.87-3.28 3.4-5.5 6.52-5.5s5.65 2.22 6.52 5.5c-.87 3.28-3.4 5.5-6.52 5.5z"/>
-                                    </svg>
-                                ) : (
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px">
-                                        <path d="M12 6.5c-3.12 0-5.65 2.22-6.52 5.5.87 3.28 3.4 5.5 6.52 5.5s5.65-2.22 6.52-5.5c-.87-3.28-3.4-5.5-6.52-5.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-11.5c-5 0-9.27 3.11-11 7.5 1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 13c-3.12 0-5.65-2.22-6.52-5.5.87-3.28 3.4-5.5 6.52-5.5s5.65 2.22 6.52 5.5c-.87 3.28-3.4 5.5-6.52 5.5z"/>
-                                    </svg>
-                                )}
-                            </button>
-                        </div>
-                        { passwordCheckError && <p className="errormessage">{ passwordCheckError }</p> }
-                    </div>
-                    <div className="input-group">
-                        <p className="label">이메일</p>
-                        <input className="input" type="text" value={ email } onChange={ handleEmailChange } />
-                        { emailError && <p className="errormessage">{ emailError }</p> }
-                    </div>
-                </div>
-                <button className="signup-button" onClick={ handleSignupSubmit }>
-                    회원가입
-                </button>
-                <div className="signin-link-area">
-                    <button onClick={ handleGoToLogin }>회원이시라면? 로그인</button>
-                </div>
-            </div>
-        </div>
+    return(
+        <Container component="main" maxWidth="sm">
+            <Box sx={{ my: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{ 
+                    width: '100%',
+                    p: 5,
+                    backgroundColor: 'background.paper',
+                    borderRadius: '12px',
+                }}>
+                    <Typography component="h1" variant="h5" align="center" fontWeight="700" mb={ 4 }>
+                        회원가입
+                    </Typography>
+                    <Stack component="form" spacing={ 5 } noValidate>
+                        <TextField
+                            required fullWidth variant="standard" label="아이디" value={ username } onChange={ handleUserNameChange }
+                            error={ !!userNameError } helperText={ userNameError }
+                        />
+                        <TextField
+                            fullWidth variant="standard" label="닉네임" value={ nickname } onChange={ handleNicknameChange }
+                            error={ !!nicknameError } helperText={ nicknameError }
+                        />
+                        <TextField
+                            required fullWidth variant="standard" label="비밀번호" value={password} onChange={ handlePasswordChange }
+                            type={ showPassword ? "text" : "password" } error={ !!passwordError } helperText={ passwordError }
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPassword(!showPassword)}>
+                                            { showPassword ? <VisibilityOff /> : <Visibility /> }
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                        <TextField
+                            required fullWidth variant="standard" label="비밀번호 확인" value={ passwordCheck } onChange={ handlePasswordCheckChange }
+                            type={ showPasswordCheck ? "text" : "password" } error={ !!passwordCheckError } helperText={ passwordCheckError }
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setShowPasswordCheck(!showPasswordCheck)}>
+                                            { showPasswordCheck ? <VisibilityOff /> : <Visibility /> }
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }} 
+                        />
+                        <TextField
+                            required fullWidth variant="standard" label="이메일" value={ email } onChange={ handleEmailChange }
+                            error={!!emailError} helperText={ emailError }
+                        />
+                    </Stack>
+                    <Stack noValidate>
+                        <Button
+                            type="button" fullWidth variant="contained" onClick={ handleSignupSubmit }
+                            sx={{
+                                mt: 3, mb: 1, py: '14px', fontSize: '16px', fontWeight: '600',
+                                backgroundColor: isDarkMode ? '#eee' : 'grey.800',
+                                color: isDarkMode ? '#333' : 'grey.300',
+                                '&:hover': {
+                                    backgroundColor: isDarkMode ? '#ddd' : 'grey.700',
+                                }
+                            }}
+                        >
+                            회원가입
+                        </Button>
+                        <Button
+                            type="button" onClick={ handleGoToLogin }
+                                sx={{
+                                py: '14px', fontSize: '14px',
+                                textDecoration: 'underline',
+                                color: (theme) => theme.palette.mode === 'dark' ? 'grey.400' : 'grey.600',
+                            }}
+                        >
+                            회원이시라면? 로그인
+                        </Button>
+                    </Stack>
+                </Box>
+            </Box>
+        </Container>
     );
-};
+}
 
 export default Signup;

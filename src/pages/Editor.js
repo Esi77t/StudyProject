@@ -1,15 +1,16 @@
 import { EditorContent, useEditor } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
-import "../css/Editor.css"
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Table from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableHeader from "@tiptap/extension-table-header";
 import TableCell from "@tiptap/extension-table-cell";
-import { MdAdd, MdCode, MdDelete, MdFormatBold, MdFormatItalic, MdFormatListBulleted, MdFormatListNumbered, MdImage, MdLink, MdLinkOff, MdRemove, MdTableChart } from "react-icons/md";
+import { Container, Paper, Box, Typography, TextField, Button, Stack, ToggleButton, ToggleButtonGroup, Divider } from "@mui/material";
+import { FormatBold, FormatItalic, FormatListBulleted, FormatListNumbered, Code, Image as ImageIcon, Link as LinkIcon, LinkOff, TableChart, Add, Remove, Delete } from '@mui/icons-material';
+import { DevBlogContext } from "../context/DevBlogProvider";
 
 const dummyPosts = [
     {
@@ -29,6 +30,7 @@ const Editor = () => {
     const navigate = useNavigate();
     const isEditMode = !!id;
     const postId = isEditMode ? parseInt(id, 10) : null;
+    const { isDarkMode } = useContext(DevBlogContext);
 
     const [title, setTitle] = useState('');
     const [initialContent, setInitialContent] = useState('');
@@ -52,10 +54,6 @@ const Editor = () => {
             TableCell,
         ],
         content: initialContent,
-        onUpdate: ({ editor }) => {
-            // const html = editor.getHTML();
-            // console.log(html);
-        },
         editorProps: {
             attributes: {
                 class: 'tiptap-editor-content',
@@ -79,9 +77,8 @@ const Editor = () => {
         }
     }, [isEditMode, postId, navigate, editor]);
 
-    // ★★★ 새로운 기능 함수들 ★★★
     const addImage = () => {
-        const url = window.prompt('이미지 URL을 입력하세요:'); // 이미지 URL 입력
+        const url = window.prompt('이미지 URL을 입력하세요:');
         if (url) {
             editor.chain().focus().setImage({ src: url }).run();
         }
@@ -89,44 +86,14 @@ const Editor = () => {
 
     const setLink = () => {
         const url = window.prompt('링크 URL을 입력하세요:', editor.getAttributes('link').href);
-        if (url === null) return; // 프롬프트 취소 시
-        if (url === '') { // URL이 비어있으면 링크 제거
+        if (url === null) return;
+        if (url === '') {
             editor.chain().focus().extendMarkRange('link').unsetLink().run();
             return;
         }
         editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
     };
 
-    const unsetLink = () => {
-        editor.chain().focus().unsetLink().run();
-    };
-
-    const addTable = () => {
-        editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
-    };
-
-    const deleteTable = () => {
-        editor.chain().focus().deleteTable().run();
-    };
-
-    const addRowAfter = () => {
-        editor.chain().focus().addRowAfter().run();
-    };
-
-    const deleteRow = () => {
-        editor.chain().focus().deleteRow().run();
-    };
-
-    const addColumnAfter = () => {
-        editor.chain().focus().addColumnAfter().run();
-    };
-
-    const deleteColumn = () => {
-        editor.chain().focus().deleteColumn().run();
-    };
-
-
-    // 에디터가 아직 로드되지 않았을 때
     if (!editor) {
         return null;
     }
@@ -160,82 +127,83 @@ const Editor = () => {
         }
     };
 
-    return (
-        <div className="editor-container">
-            <h2 className="editor-page-title">{isEditMode ? '게시글 수정' : '새 게시글 작성'}</h2>
-            <div className="form-group">
-                <label htmlFor="post-title">제목</label>
-                <input
-                    type="text"
-                    id="post-title"
-                    className="title-input"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    placeholder="게시글 제목을 입력하세요"
-                />
-            </div>
-
-            <div className="form-group">
-                <label>내용</label>
-                <div className="tiptap-toolbar">
-                    <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'is-active' : ''}>
-                        <MdFormatBold />
-                    </button>
-                    <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'is-active' : ''}>
-                        <MdFormatItalic />
-                    </button>
-                    <button onClick={() => editor.chain().focus().setParagraph().run()} className={editor.isActive('paragraph') ? 'is-active' : ''}>
-                        P 
-                    </button>
-                    <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'is-active' : ''}>
-                        <MdFormatListBulleted />
-                    </button>
-                    <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'is-active' : ''}>
-                        <MdFormatListNumbered />
-                    </button>
-                    <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'is-active' : ''}>
-                        <MdCode />
-                    </button>
-                    <button onClick={addImage}>
-                        <MdImage />
-                    </button>
-                    <button onClick={setLink} className={editor.isActive('link') ? 'is-active' : ''}>
-                        <MdLink />
-                    </button>
-                    <button onClick={unsetLink} disabled={!editor.isActive('link')}>
-                        <MdLinkOff />
-                    </button>
-                    <button onClick={addTable}>
-                        <MdTableChart />
-                    </button>
-                    <button onClick={addRowAfter} disabled={!editor.isActive('table')}>
-                        <MdAdd /> 행 
-                    </button>
-                    <button onClick={deleteRow} disabled={!editor.isActive('table')}>
-                        <MdRemove /> 행 
-                    </button>
-                    <button onClick={addColumnAfter} disabled={!editor.isActive('table')}>
-                        <MdAdd /> 열 
-                    </button>
-                    <button onClick={deleteColumn} disabled={!editor.isActive('table')}>
-                        <MdRemove /> 열 
-                    </button>
-                    <button onClick={deleteTable} disabled={!editor.isActive('table')}>
-                        <MdDelete /> 표 
-                    </button>
-                </div>
-                <EditorContent editor={editor} className="tiptap-editor-wrapper" />
-            </div>
-
-            <div className="editor-actions">
-                <button onClick={handleSubmit} className="submit-button">
-                    { isEditMode ? '수정 완료' : '작성 완료' }
-                </button>
-                <button onClick={handleCancel} className="cancel-button">
-                    취소
-                </button>
-            </div>
-        </div>
+   return(
+        <Container maxWidth="lg" sx={{ my: 4 }}>
+            <Paper elevation={ 2 } sx={{ p: 4 }}>
+                <Typography variant="h4" component="h2" align="center" fontWeight={ 600 } mb={ 4 }>
+                    { isEditMode ? '게시글 수정' : '새 게시글 작성' }
+                </Typography>
+                <Stack spacing={4}>
+                    <TextField
+                        fullWidth
+                        label="제목"
+                        variant="standard"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="게시글 제목을 입력하세요"
+                        InputLabelProps={{ sx: { fontSize: '16px' } }}
+                    />
+                    <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
+                        <ToggleButtonGroup
+                            size="small"
+                            aria-label="text formatting"
+                            sx={{
+                                p: 1,
+                                flexWrap: 'wrap',
+                                borderBottom: '1px solid',
+                                borderColor: 'divider',
+                                '& .MuiToggleButton-root': {
+                                    border: 0,
+                                }
+                            }}
+                        >
+                            <ToggleButton value="bold" onClick={() => editor.chain().focus().toggleBold().run()} selected={ editor.isActive('bold') }><FormatBold /></ToggleButton>
+                            <ToggleButton value="italic" onClick={() => editor.chain().focus().toggleItalic().run()} selected={ editor.isActive('italic') }><FormatItalic /></ToggleButton>
+                            <ToggleButton value="bulletList" onClick={() => editor.chain().focus().toggleBulletList().run()} selected={ editor.isActive('bulletList') }><FormatListBulleted /></ToggleButton>
+                            <ToggleButton value="orderedList" onClick={() => editor.chain().focus().toggleOrderedList().run()} selected={ editor.isActive('orderedList') }><FormatListNumbered /></ToggleButton>
+                            <ToggleButton value="codeBlock" onClick={() => editor.chain().focus().toggleCodeBlock().run()} selected={ editor.isActive('codeBlock') }><Code /></ToggleButton>
+                            <Divider flexItem orientation="vertical" sx={{ mx: 0.5 }} />
+                            <ToggleButton value="image" onClick={addImage}><ImageIcon /></ToggleButton>
+                            <ToggleButton value="link" onClick={setLink} selected={editor.isActive('link')}><LinkIcon /></ToggleButton>
+                            <ToggleButton value="unlink" onClick={() => editor.chain().focus().unsetLink().run()} disabled={ !editor.isActive('link') }><LinkOff /></ToggleButton>
+                            <Divider flexItem orientation="vertical" sx={{ mx: 0.5 }} />
+                            <ToggleButton value="table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><TableChart /></ToggleButton>
+                            <ToggleButton value="deleteTable" onClick={() => editor.chain().focus().deleteTable().run()} disabled={ !editor.isActive('table') }><Delete /></ToggleButton>
+                        </ToggleButtonGroup>
+                        <Box sx={{ p: 2, minHeight: 300, '& .tiptap': { outline: 'none' }, '& .tiptap p': { margin: 0 } }}>
+                            <EditorContent editor={ editor } />
+                        </Box>
+                    </Box>
+                    <Stack direction="row" spacing={ 2 } justifyContent="flex-end">
+                        <Button
+                            variant="outlined"
+                            onClick={ handleCancel }
+                            sx={{
+                                py: '10px', px: '20px',
+                                color: isDarkMode ? 'grey.400' : 'grey.700',
+                                borderColor: isDarkMode ? 'grey.700' : 'grey.400',
+                            }}
+                        >
+                            취소
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={ handleSubmit }
+                            sx={{
+                                py: '10px', px: '20px',
+                                backgroundColor: isDarkMode ? '#eee' : 'grey.800',
+                                color: isDarkMode ? '#333' : 'grey.300',
+                                '&:hover': {
+                                    backgroundColor: isDarkMode ? '#ddd' : 'grey.700',
+                                }
+                            }}
+                        >
+                            { isEditMode ? '수정 완료' : '작성 완료' }
+                        </Button>
+                    </Stack>
+                </Stack>
+            </Paper>
+        </Container>
     );
 };
 
