@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
 import { penguinClient, rhodosClient } from "../api/ApiClient";
-import axios from "axios";
 
 const useOperatorData = ( operatorName ) => {
     
@@ -16,7 +15,7 @@ const useOperatorData = ( operatorName ) => {
             setLoading(true);
             setError(null);
             try {
-                const response = await axios.get(`https://api.rhodesapi.com/api/operator/${ operatorName }`);
+                const response = await rhodosClient.get(`${ operatorName }`);
                 setData(response.data);
             } catch (e) {
                 setError(e);
@@ -72,7 +71,7 @@ const useAllOperators = () => {
         const fetchAllOperators = async () => {
             setLoading(true);
             try {
-                const response = await axios.get("https://api.rhodesapi.com/api/operator");
+                const response = await rhodosClient.get();
                 setOperators(response.data || []);
             } catch (e) {
                 setError(e);

@@ -2,8 +2,8 @@ import "../css/OperatorSelector.css"
 
 const OperatorSelector = ({ groupedOperators = {}, onSelect, onClose }) => {
     
-    const classOrder = ['Vangaurd', 'Guard', 'Defender', 'Caster', 'Medic', 'Suppoter', 'Specialist'];
-    const sortedClasses = classOrder.filter(cls => groupedOperators[cls]);
+    const classOrder = ['Vanguard', 'Guard', 'Defender', 'Caster', 'Medic', 'Suppoter', 'Specialist'];
+    const sortedClasses = classOrder.filter(cls => Array.isArray(groupedOperators[cls]));
 
     return(
         <div className="selector-modal-overlay" onClick={ onClose } >
@@ -11,7 +11,7 @@ const OperatorSelector = ({ groupedOperators = {}, onSelect, onClose }) => {
                 <button className="close-button" onClick={ onClose }>&times;</button>
                 <h2>오퍼레이터 선택</h2>
                 { sortedClasses.map(className => (
-                    <div key={ className } className="class-group">
+                    <div key={ className } className="class-group"> 
                         <h3 className="class-name">{ className }</h3>
                         <div className="operator-grid">
                             { groupedOperators[className].map(op => (
