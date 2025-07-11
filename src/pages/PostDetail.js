@@ -1,5 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
-import "../css/PostDetail.css";
+import { Container, Paper, Box, Typography, Button, Stack, Divider, Chip, List, TextField } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ListIcon from "@mui/icons-material/List";
+import CommentItem from "../components/CommentItem";
+import { useContext, useState } from "react";
+import { DevBlogContext } from "../context/DevBlogProvider";
 
 const dummyPosts = [
     {
@@ -61,16 +67,45 @@ const dummyPosts = [
     },
 ];
 
+const dummyComments = [
+    { id: 1, postId: 1, author: "개발자C", content: "정리가 잘 되어 있네요. 잘 보고 갑니다!", date: "2025.01.05" },
+    { id: 2, postId: 1, author: "신입B", content: "Flexbox 관련해서 궁금했는데 큰 도움이 되었습니다.", date: "2025.01.06" },
+    { id: 3, postId: 2, author: "작성자A", content: "Hooks는 정말 혁신적인 기능이죠.", date: "2025.02.11" },
+];
+
 const PostDetail = () => {
 
     const { id } = useParams();
     const navigate = useNavigate();
     const postId = parseInt(id, 10);
 
+    const { isLoggedIn } = useContext(DevBlogContext);
+
+    const [comments, setComments] = useState(dummyComments.filter(c => c.postId === postId));
+    const [newComment, setNewComment] = useState("");
+
     const post = dummyPosts.find(p => p.id === postId);
+
+    const currentUser = {
+        "name" : "개발자C",
+    }
 
     const handleEditClick = () => {
         navigate(`/devboard/edit/${postId}`);
+    };
+
+     const handleCommentSubmit = () => {
+        if (!newComment.trim()) return;
+        const newId = comments.length > 0 ? Math.max(...comments.map(c => c.id)) + 1 : 1;
+        const commentToAdd = {
+            id: newId,
+            postId: postId,
+            author: "로그인유저", // 현재 로그인된 사용자 정보로 대체 필요
+            content: newComment,
+            date: new Date().toLocaleDateString('ko-KR'),
+        };
+        setComments([...comments, commentToAdd]);
+        setNewComment("");
     };
 
     const handleDeleteClick = () => {
@@ -83,31 +118,105 @@ const PostDetail = () => {
 
     if (!post) {
         return (
-            <div className="post-detail-container">
-                <p className="no-post-found">게시글을 찾을 수 없습니다.</p>
-                <button className="back-to-list-button" onClick={() => navigate('/devboard')}>목록으로</button>
-            </div>
+            <Container maxWidth="md" sx={{ my: 4 }}>
+                <Paper sx={{ p: 4, textAlign: 'center' }}>
+                    <Typography variant="h6" sx={{ mb: 2 }}>게시글을 찾을 수 없습니다.</Typography>
+                    <Button variant="outlined" onClick={() => navigate('/devboard')} startIcon={<ListIcon />}>
+                        목록으로
+                    </Button>
+                </Paper>
+            </Container>
         );
     }
 
-    return (
-        <div className="post-detail-container">
-            <div className="post-header-area">
-                <h1 className="post-detail-title">{ post.title }</h1>
-                <div className="post-meta-info">
-                    <span className="post-detail-author">작성자: { post.author }</span>
-                    <span className="post-detail-date">작성일: { post.date }</span>
-                    <span className="post-detail-views">조회수: { post.views }</span>
-                </div>
-            </div>
-            <div className="post-content-area" dangerouslySetInnerHTML={{ __html: post.content }} />
-            <div className="post-actions">
-                <button className="edit-button" onClick={handleEditClick}>수정</button>
-                <button className="delete-button" onClick={handleDeleteClick}>삭제</button>
-                <button className="back-to-list-button" onClick={() => navigate('/devboard')}>목록으로</button>
-            </div>
-        </div>
+    return(
+        <Container maxWidth="md" sx={{ my: 4 }}>
+            <Paper elevation={2} sx={{ p: { xs: 2, sm: 4 } }}>
+                <Box sx={{ pb: 3, mb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
+                    <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 600, wordBreak: 'break-word' }}>
+                        { post.title }
+                    </Typography>
+                    <Stack direction="row" spacing={2} sx={{ color: 'text.secondary', mt: 2 }}>
+                        <Typography variant="body2">작성자: { post.author }</Typography>
+                        <Typography variant="body2">작성일: { post.date }</Typography>
+                        <Typography variant="body2">조회수: { post.views }</Typography>
+                    </Stack>
+                </Box>
+                <Box
+                    className="post-content-area"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                    sx={{
+                        py: 2,
+                        lineHeight: 1.8,
+                        fontSize: '1rem',
+                        '& h1, & h2, & h3, & h4': {
+                            mt: 4,
+                            mb: 2,
+                            fontWeight: 600,
+                        },
+                        '& p': {
+                            my: 1.5,
+                        },
+                        '& ul, & ol': {
+                            pl: 3,
+                        },
+                        '& pre': {
+                            p: 2,
+                            my: 2,
+                            backgroundColor: (theme) => theme.palette.mode === 'dark' ? 'grey.900' : 'grey.100',
+                            borderRadius: 1,
+                            overflowX: 'auto',
+                        },
+                        '& code': {
+                            fontFamily: 'monospace',
+                        },
+                    }}
+                />
+                <Divider sx={{ my: 3 }} />
+                <Stack direction="row" spacing={ 2 } justifyContent="flex-end">
+                    <Button variant="outlined" color="secondary" onClick={ handleEditClick } startIcon={ <EditIcon /> }>
+                        수정
+                    </Button>
+                    <Button variant="outlined" color="error" onClick={ handleDeleteClick } startIcon={ <DeleteIcon /> }>
+                        삭제
+                    </Button>
+                    <Button variant="contained" onClick={() => navigate('/devboard')} startIcon={ <ListIcon /> }>
+                        목록으로
+                    </Button>
+                </Stack>
+                <Box sx={{ mt: 5 }}>
+                    <Typography variant="h6" gutterBottom>
+                        댓글: ({ comments.length }) 
+                    </Typography>
+                    <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+                        { comments.map((comment, index) => (
+                            <CommentItem
+                                key={ comment.id }
+                                comment={ comment }
+                                isLast={ index === comment.length - 1 }
+                                isLoggedIn={ isLoggedIn }
+                                currentUser={ currentUser }
+                            />
+                        )) }
+                    </List>
+                    <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={2}
+                            variant="outlined"
+                            label="댓글을 입력하세요"
+                            value={ newComment }
+                            onChange={(e) => setNewComment(e.target.value)}
+                        />
+                        <Button variant="contained" onClick={ handleCommentSubmit } sx={{ height: 'fit-content', alignSelf: 'flex-end' }}>
+                            등록
+                        </Button>
+                    </Stack>
+                </Box>
+            </Paper>
+        </Container>
     );
-};
+}
 
 export default PostDetail;

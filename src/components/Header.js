@@ -71,6 +71,7 @@ const Header = () => {
                                     transition: 'background-color 0.2s',
                                     '&:hover': {
                                         backgroundColor: 'action.hover',
+                                        borderRadius: '8px 8px 0 0',
                                     },
                                     '&::after': isActive('/devboard') ? {
                                         content: '""',

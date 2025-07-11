@@ -30,7 +30,7 @@ const DevBoard = () => {
     const currentPosts = allPosts.slice(0, 20);
 
     const handleWriteClick = () => {
-        navigate('/devobard/write');
+        navigate('/devboard/write');
     };
 
     const handlePostClick = (postId) => {
@@ -72,7 +72,7 @@ const DevBoard = () => {
                         <TableBody>
                             {currentPosts.length > 0 ? (
                                 currentPosts.map((post) => (
-                                    <TableRow key={post.id} hover onClick={() => handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
+                                    <TableRow key={ post.id } hover onClick={() => handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
                                         <TableCell align="center">{ post.id }</TableCell>
                                         <TableCell align="left">{ post.title }</TableCell>
                                         <TableCell align="center">{ post.author }</TableCell>
@@ -89,20 +89,21 @@ const DevBoard = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </Paper>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', }}>
                 <Fab
                     color="primary"
                     aria-label="write post"
                     onClick={ handleWriteClick }
                     sx={{
-                        position: 'sticky',
-                        bottom: 32,
-                        alignSelf: 'flex-end',
-                        mt: 2,
+                        position: 'fixed',
+                        bottom: 58,
+                        right: 400,
                     }}
                 >
-                    <EditIcon />
+                <EditIcon />
                 </Fab>
-            </Paper>
+            </Box>
         </Container>
     );
 };
