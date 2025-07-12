@@ -1,34 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Paper, Typography, TextField, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Fab, Box, useScrollTrigger, Zoom } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import EditIcon from "@mui/icons-material/Edit";
-
-const generateDummyPosts = (num) => {
-
-    const dummy = [];
-    for (let i = 1; i <= num; i++) {
-        dummy.push({
-            id: i,
-            title: `[게시글] ${ i }번째 개발 블로그 게시글입니다.`,
-            author: `작성자${ String.fromCharCode(64 + (i % 3) + 1)}`,
-            date: `2025.0${(i % 12) + 1}.${(i % 28) + 1}`,
-            views: Math.floor(Math.random() * 1000) + 50,
-        });
-    }
-    return dummy;
-};
+import api from "../api/api";
 
 const DevBoard = () => {
     
     const navigate = useNavigate();
+    const [posts, setPosts] = useState([]);
 
-    const [allPosts, setAllPosts] = useState(generateDummyPosts(100));
-    const [postsPerPage, setPostsPerPage] = useState(20);
-    const [currentPage, setCurrentPage] = useState(1);
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await api.get('/api/posts');
+                setPosts(response.data);
+            } catch (error) {
+                console.error("게시글 목록을 불러오는데 실패했습니다.", error);
+            }
+        }
 
-    const currentPosts = allPosts.slice(0, 20);
-
+        fetchPosts();
+    }, [])
+    
     const handleWriteClick = () => {
         navigate('/devboard/write');
     };
@@ -70,8 +64,8 @@ const DevBoard = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {currentPosts.length > 0 ? (
-                                currentPosts.map((post) => (
+                            { posts.length > 0 ? (
+                                posts.map((post) => (
                                     <TableRow key={ post.id } hover onClick={() => handlePostClick(post.id)} sx={{ cursor: 'pointer' }}>
                                         <TableCell align="center">{ post.id }</TableCell>
                                         <TableCell align="left">{ post.title }</TableCell>

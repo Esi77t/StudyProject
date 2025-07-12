@@ -12,19 +12,7 @@ import { Container, Paper, Box, Typography, TextField, Button, Stack, ToggleButt
 import { FormatBold, FormatItalic, FormatListBulleted, FormatListNumbered, Code, Image as ImageIcon, Link as LinkIcon, LinkOff, TableChart, Delete, Undo, Redo } from '@mui/icons-material';
 import { DevBlogContext } from "../context/DevBlogProvider";
 import History from "@tiptap/extension-history";
-
-const dummyPosts = [
-    {
-        id: 1,
-        title: "[게시글] 1번째 개발 블로그 게시글입니다.",
-        content: `<p>안녕하세요! 첫 번째 개발 블로그 게시글입니다.</p><p>이곳에 게시글의 상세 내용이 들어갑니다.</p>`
-    },
-    {
-        id: 2,
-        title: "[게시글] 2번째 React 개발 팁 공유합니다.",
-        content: `<p>React 개발 시 유용한 팁을 공유합니다.</p><p>컴포넌트의 재사용성을 높이고, 상태 관리를 효율적으로 하는 방법에 대해 알아보겠습니다.</p>`
-    }
-];
+import api from "../api/api";
 
 const Editor = () => {
 
@@ -66,18 +54,26 @@ const Editor = () => {
 
     useEffect(() => {
         if (isEditMode && postId) {
-            const postToEdit = dummyPosts.find(p => p.id === postId);
-            if (postToEdit) {
-                setTitle(postToEdit.title);
-                setInitialContent(postToEdit.content);
-                if (editor) {
-                    editor.commands.setContent(postToEdit.content);
+            const fetchPostForEdit = async () => {
+                try {
+                    const response = await api.get(`/api/posts/${ postId }`);
+                    const postData = response.data;
+
+                    setTitle(postData.title);
+                    setInitialContent(postData.content);
+                    if(editor) {
+                        editor.commands.setContent(postData.content);
+                    }
+                } catch (error) {
+                    console.error("게시글 불러오기 실패: ", error);
+                    alert("게시글 정보를 불러오는 데 실패했습니다.");
+                    navigate("/devboard");
                 }
-            } else {
-                alert('수정할 게시글을 찾을 수 없습니다.');
-                navigate('/devboard');
             }
+
+            fetchPostForEdit();
         }
+
     }, [isEditMode, postId, navigate, editor]);
 
     const addImage = () => {
@@ -101,28 +97,30 @@ const Editor = () => {
         return null;
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const htmlContent = editor.getHTML();
-        const textContent = editor.getText();
-
-        if (!title.trim()) {
-            alert('제목을 입력해주세요.');
-            return;
-        }
-        if (!htmlContent.trim() || textContent.trim() === '') {
-            alert('내용을 입력해주세요.');
+        if(!title.trim() || editor.isEmpty) {
+            alert('제목과 내용을 모두 입력해주세요.');
             return;
         }
 
-        if (isEditMode) {
-            console.log('게시글 수정:', { id: postId, title, content: htmlContent });
-            alert('게시글이 수정되었습니다! (콘솔 확인)');
-        } else {
-            console.log('새 게시글 작성:', { title, content: htmlContent });
-            alert('게시글이 작성되었습니다! (콘솔 확인)');
+        const postData = { title, content: htmlContent };
+
+        try {
+            if(isEditMode) {
+                await api.put(`/api/posts/${ postId }`, postData);
+                alert("게시글이 성공적으로 수정되었습니다.");
+                navigate(`/devboard/${ postId }`);
+            } else {
+                const response = await api.post('/api/posts', postData);
+                alert('게시글이 성공적으로 작성되었습니다.');
+                navigate(`/devboard/${ response.data.id }`);
+            }
+        } catch (error) {
+            console.error("게시글 처리 실패: ", error);
+            alert("게시글 처리에 실패했습니다. 로그인 상태를 확인해주세요.");
         }
-        navigate('/devboard');
-    };
+    }
 
     const handleCancel = () => {
         if (window.confirm('작성을 취소하시겠습니까? 작성 중인 내용은 저장되지 않습니다.')) {

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DevBlogContext } from "../context/DevBlogProvider";
 import { Box, Button, Container, Stack, TextField, Typography } from "@mui/material"
+import api from "../api/api";
 
 const Signin = () => {
     
@@ -11,9 +12,26 @@ const Signin = () => {
 
     const navigate = useNavigate();
 
-    const handleSignin = () => {
-        handleLogin();
-        navigate("/devboard");
+    const handleApiLogin = async() => {
+        try {
+            const response = await api.post('/api/auth/login',{
+                username: username,
+                password: password,
+            });
+
+            const token = response.headers['authorization'];
+            console.log(token);
+
+            if(token) {
+                localStorage.setItem('jwt', token);
+                handleLogin();
+
+                navigate("/devboard");
+            }
+        } catch (error) {
+            console.error("로그인 실패: ", error);
+            alert("아이디 또는 비밀번호를 확인해주세요.");
+        }
     };
 
     const handleSignup = () => {
@@ -81,7 +99,7 @@ const Signin = () => {
                     type="button"
                     fullWidth
                     variant="contained"
-                    onClick={handleSignin}
+                    onClick={ handleApiLogin }
                     sx={{ 
                         mt: 3,
                         mb: 1,
@@ -100,7 +118,7 @@ const Signin = () => {
                     type="button"
                     fullWidth
                     variant="text"
-                    onClick={handleSignup}
+                    onClick={ handleSignup }
                     sx={{
                         py: '14px',
                         fontSize: '14px',
