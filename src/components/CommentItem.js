@@ -1,13 +1,14 @@
 import { Avatar, IconButton, ListItem, ListItemAvatar, ListItemText, MenuItem, Stack, Typography, Box, Menu, Button, ListItemSecondaryAction } from "@mui/material"
 import { useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import api from "../api/api";
 
-const CommentItem = ({ comment, isLast, isLoggedIn, currentUser }) => {
+const CommentItem = ({ comment, isLast, isLoggedIn, currentUser, onDeleteSuccess }) => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    const isOwnComment = isLoggedIn && currentUser?.name === comment.author;
+    const isOwnComment = isLoggedIn && currentUser?.nickname === comment.author;
 
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -22,9 +23,19 @@ const CommentItem = ({ comment, isLast, isLoggedIn, currentUser }) => {
         handleMenuClose();
     };
 
-    const handleDelete = () => {
-        console.log("Delete comment:", comment.id);
-        handleMenuClose();
+    const handleDelete = async () => {
+        if(window.confirm("정말로 이 댓글을 삭제하시겠습니까?")) {
+            try {
+                await api.delete(`/api/comments/${ comment.id }`);
+
+                onDeleteSuccess(comment.id);
+
+                alert("댓글이 삭제되었습니다.");
+            } catch (error) {
+                console.error("댓글 삭제 실패: ", error);
+                alert("댓글 삭제에 실패했습니다.");
+            }
+        }
     };
 
     return(

@@ -20,11 +20,12 @@ const Signin = () => {
             });
 
             const token = response.headers['authorization'];
-            console.log(token);
+            const userData = response.data;
 
             if(token) {
                 localStorage.setItem('jwt', token);
-                handleLogin();
+
+                handleLogin(userData);
 
                 navigate("/devboard");
             }

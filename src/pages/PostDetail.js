@@ -3,26 +3,35 @@ import { Container, Paper, Box, Typography, Button, Stack, Divider, Chip, List, 
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import api from "../api/api";
+import CommentItem from "../components/CommentItem";
+import { DevBlogContext } from "../context/DevBlogProvider";
 
 const PostDetail = () => {
 
     const { id } = useParams();
+    const { isLoggedIn, user } = useContext(DevBlogContext);
     const navigate = useNavigate();
     
     const [post, setPost] = useState();
+    const [newComment, setNewComment] = useState("");
+    const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPost = async () => {
             setLoading(true);
             try {
-                const response = await api.get(`/api/posts/${ id }`);
-                setPost(response.data);
+                const postResponse = await api.get(`/api/posts/${ id }`);
+                setPost(postResponse.data);
+
+                const commentsResponse = await api.get(`/api/posts/${ id }/comments`);
+                setComments(commentsResponse.data);
             } catch (error) {
                 console.error("게시글을 불러오는데 실패했습니다.", error);
                 setPost(null);
+                setComments([]);
             } finally {
                 setLoading(false);
             }
@@ -46,6 +55,30 @@ const PostDetail = () => {
                 alert("게시글 삭제에 실패했습니다.");
             }
         }
+    }
+
+    const handleCommentSubmit = async () => {
+        if(!newComment.trim()) {
+            alert("댓글 내용을 입력해주세요");
+            return;
+        }
+
+        try {
+            const response = await api.post(`/api/posts/${ id }/comments`, {
+                content: newComment
+            });
+
+            setComments([...comments, response.data]);
+
+            setNewComment("");
+        } catch (error) {
+            console.error("댓글 작성 실패: ", error);
+            alert("댓글 작성에 실패했습니다. 로그인 상태를 확인해주세요.");
+        }
+    }
+
+    const handleCommentDeleted = (deletedCommentId) => {
+        setComments(comments.filter(comment => comment.id !== deletedCommentId));
     }
 
     if(loading) {
@@ -124,6 +157,37 @@ const PostDetail = () => {
                         목록으로
                     </Button>
                 </Stack>
+                <Box sx={{ mt: 5 }}>
+                    <Typography variant="h6" gutterBottom>
+                        댓글 ({ comments.length })
+                    </Typography>
+                    <List sx={{ width: '100%', bgcolor: 'background.paper', p: 0 }}>
+                        { comments.map((comment, index) => (
+                            <CommentItem
+                                key={ comment.id }
+                                comment={ comment }
+                                isLast={ index === comments.length - 1 }
+                                isLoggedIn={ isLoggedIn }
+                                currentUser={ user }
+                                onDeleteSuccess={ handleCommentDeleted }
+                            />
+                        ))}
+                    </List>
+                    <Stack direction="row" spacing={ 2 } sx={{ mt: 3 }}>
+                        <TextField
+                            fullWidth
+                            multiline
+                            rows={ 2 }
+                            variant="outlined"
+                            label="댓글을 입력하세요"
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                        />
+                        <Button variant="contained" onClick={ handleCommentSubmit } sx={{ height: 'fit-content', alignSelf: 'flex-end' }}>
+                            등록
+                        </Button>
+                    </Stack>
+                </Box>
             </Paper>
         </Container>
     );

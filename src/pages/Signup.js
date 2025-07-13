@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography, Container, Stack, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { DevBlogContext } from "../context/DevBlogProvider";
+import api from "../api/api";
 
 const Signup = ({ children }) => {
 
@@ -12,7 +13,6 @@ const Signup = ({ children }) => {
     const [password, setPassword] = useState("");
     const [passwordCheck, setPasswordCheck] = useState("");
     const [email, setEmail] = useState("");
-    const [name, setName] = useState("");
 
     // 에러를 담아낼 state
     const [userNameError, setUserNameError] = useState("");
@@ -20,7 +20,6 @@ const Signup = ({ children }) => {
     const [passwordError, setPasswordError] = useState("");
     const [passwordCheckError, setPasswordCheckError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [nameError, setNameError] = useState("");
 
     // 비밀번호 가시성 토글을 위한 state
     const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +32,6 @@ const Signup = ({ children }) => {
     const passLetterRegex = /[a-zA-Z]/;
     const passNumberRegex = /[0-9]/;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const nameRegex = /^[가-힣a-zA-Z]{1,30}$/;
 
     const { isDarkMode } = useContext(DevBlogContext);
 
@@ -52,7 +50,14 @@ const Signup = ({ children }) => {
     };
 
     const handleNicknameChange = (e) => {
-        setNickname(e.target.value);
+
+        const text = e.target.value;
+        setNickname(text);
+        if(!text.trim()) {
+            setNicknameError("닉네임은 필수 입력 항목입니다.");
+        } else {
+            setNicknameError("");
+        }
     };
 
     const handlePasswordChange = (e) => {
@@ -102,8 +107,27 @@ const Signup = ({ children }) => {
         }
     };
 
-    const handleSignupSubmit = () => {
-        navigate('/login');
+    const handleSignupSubmit = async () => {
+        if(userNameError || passwordError || passwordCheckError || emailError || nicknameError || !username || !password) {
+            alert("입력 정보를 다시 입력해주세요.");
+            return;
+        }
+
+        try {
+            const requestDto = { username, password, email, nickname };
+
+            await api.post('/api/auth/signup', requestDto);
+
+            alert("회원가입에 성공했습니다! 로그인 페이지로 이동합니다.");
+            navigate('/login');
+        } catch (error) {
+            console.error("회원가입 실패: ", error);
+            if(error.response && error.response.data) {
+                alert(error.response.data.message);
+            } else {
+                alert("회원가입에 실패했습니다.");
+            }
+        }
     };
 
     const handleGoToLogin = () => {

@@ -8,6 +8,7 @@ const DevBlogContext = createContext();
 const DevBlogProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('isDarkMode');
@@ -35,13 +36,16 @@ const DevBlogProvider = ({ children }) => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
+        setUser(null);
+        localStorage.removeItem('jwt');
     }
 
-    const handleLogin = () => {
+    const handleLogin = (userData) => {
         setIsLoggedIn(true);
+        setUser(userData);
     }
 
-    const contextValue = { isLoggedIn, setIsLoggedIn, isDarkMode, setIsDarkMode, headerRef, toggleDarkMode, handleLogout, handleLogin }
+    const contextValue = { isLoggedIn, setIsLoggedIn, isDarkMode, setIsDarkMode, headerRef, toggleDarkMode, handleLogout, handleLogin, user, setUser }
 
     return(
         <DevBlogContext.Provider value={ contextValue }>
