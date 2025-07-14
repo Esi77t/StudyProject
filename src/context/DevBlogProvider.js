@@ -2,6 +2,7 @@ import { createContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import { CssBaseline } from "@mui/material";
+import api from "../api/api";
 
 const DevBlogContext = createContext();
 
@@ -9,6 +10,7 @@ const DevBlogProvider = ({ children }) => {
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const savedMode = localStorage.getItem('isDarkMode');
@@ -28,6 +30,27 @@ const DevBlogProvider = ({ children }) => {
         }
     }))
 
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            const token = localStorage.getItem('jwt');
+
+            if(token) {
+                try {
+                    const profileResponse = await api.get('/api/auth/user/profile');
+
+                    setIsLoggedIn(true);
+                    setUser(profileResponse.data);
+                } catch (error) {
+                    console.error("토큰 인증 실패");
+                    localStorage.removeItem('jwt');
+                }
+            }
+            setLoading(false);
+        }
+
+        checkLoginStatus();
+    }, []);
+
     const headerRef = useRef(null);
 
     const toggleDarkMode = () => {
@@ -45,7 +68,13 @@ const DevBlogProvider = ({ children }) => {
         setUser(userData);
     }
 
-    const contextValue = { isLoggedIn, setIsLoggedIn, isDarkMode, setIsDarkMode, headerRef, toggleDarkMode, handleLogout, handleLogin, user, setUser }
+    const contextValue = useMemo(() => ({
+        isLoggedIn, setIsLoggedIn, isDarkMode, setIsDarkMode, headerRef, toggleDarkMode, handleLogout, handleLogin, user, setUser, loading
+    }), [isLoggedIn, user, loading])
+
+    if(loading) {
+        return null;
+    }
 
     return(
         <DevBlogContext.Provider value={ contextValue }>

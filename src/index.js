@@ -7,11 +7,11 @@ import { DevBlogProvider } from './context/DevBlogProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <DevBlogProvider>
-    <React.StrictMode>
+  // <React.StrictMode>
+    <DevBlogProvider>
       <App />
-    </React.StrictMode>
-  </DevBlogProvider>
+    </DevBlogProvider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

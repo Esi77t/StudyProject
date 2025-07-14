@@ -1,4 +1,3 @@
-import './App.css';
 import Signin from './pages/Signin';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
@@ -10,6 +9,7 @@ import { useContext } from 'react';
 import PostDetail from './pages/PostDetail';
 import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
+import { Box } from '@mui/material';
 
 function App() {
     
@@ -18,7 +18,7 @@ function App() {
     return (
         <BrowserRouter>
             <Header />
-            <div style={{ paddingTop: '110px' }}>
+            <Box sx={{ paddingTop: '110px' }}>
                 <Routes>
                     <Route path="/login" element={ <Signin /> } />
                     <Route path="/signup" element={ <Signup /> } />
@@ -36,7 +36,7 @@ function App() {
                         </PrivateRoute>
                     } />
                 </Routes>
-            </div>
+            </Box>
         </BrowserRouter>
     );
 }

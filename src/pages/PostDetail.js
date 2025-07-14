@@ -1,23 +1,27 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Container, Paper, Box, Typography, Button, Stack, Divider, Chip, List, TextField, CircularProgress } from "@mui/material";
+import { Container, Paper, Box, Typography, Button, Stack, Divider, List, TextField, CircularProgress, ListItemIcon, ListItem, ListItemText } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ListIcon from "@mui/icons-material/List";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import api from "../api/api";
 import CommentItem from "../components/CommentItem";
 import { DevBlogContext } from "../context/DevBlogProvider";
+import { Attachment as AttachmentIcon, UploadFile as UploadFileIcon } from "@mui/icons-material"
 
 const PostDetail = () => {
 
     const { id } = useParams();
-    const { isLoggedIn, user } = useContext(DevBlogContext);
+    const { isLoggedIn, user, isDarkMode } = useContext(DevBlogContext);
     const navigate = useNavigate();
     
     const [post, setPost] = useState();
     const [newComment, setNewComment] = useState("");
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const [selectedFile, setSelectedFile] = useState(null);
+    const fileInput = useRef(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -39,6 +43,31 @@ const PostDetail = () => {
 
         fetchPost();
     }, [id]);
+
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
+
+    const handleAttachmentUpload = async () => {
+        if (!selectedFile) {
+            alert("첨부할 파일을 선택해주세요.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            await api.post(`/api/posts/${ id }/attachments`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            alert("파일이 성공적으로 첨부되었습니다.");
+            window.location.reload();
+        } catch (error) {
+            console.error("파일 첨부 실패:", error);
+            alert("파일 첨부에 실패했습니다.");
+        }
+    };
 
     const handleEditClick = () => {
         navigate(`/devboard/edit/${ id }`);
@@ -80,6 +109,12 @@ const PostDetail = () => {
     const handleCommentDeleted = (deletedCommentId) => {
         setComments(comments.filter(comment => comment.id !== deletedCommentId));
     }
+
+    const handleCommentUpdated = (updatedComment) => {
+        setComments(comments.map(comment =>
+            comment.id === updatedComment.id ? updatedComment : comment
+        ));
+    };
 
     if(loading) {
         return(
@@ -157,6 +192,49 @@ const PostDetail = () => {
                         목록으로
                     </Button>
                 </Stack>
+                <Divider sx={{ my: 3 }} />
+                <Box sx={{ my: 4 }}>
+                    <Typography variant="h6" gutterBottom>첨부파일</Typography>
+                    <List dense>
+                        {post.attachments && post.attachments.map(file => (
+                            <ListItem
+                                key={file.id}
+                                component="a"
+                                href={file.s3Url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                button
+                            >
+                                <ListItemIcon>
+                                    <AttachmentIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={file.originalFileName} />
+                            </ListItem>
+                        ))}
+                    </List>
+                    {isLoggedIn && user?.nickname === post.author && (
+                        <Stack direction="row" spacing={1} alignItems="center" mt={2}>
+                            <Button
+                                variant="outlined"
+                                component="label"
+                                startIcon={<UploadFileIcon />}
+                            >
+                                파일 선택
+                                <input
+                                    type="file"
+                                    hidden
+                                    ref={fileInput}
+                                    onChange={handleFileChange}
+                                />
+                            </Button>
+                            {selectedFile && <Typography variant="body2">{selectedFile.name}</Typography>}
+                            <Button variant="contained" onClick={handleAttachmentUpload} disabled={!selectedFile}>
+                                업로드
+                            </Button>
+                        </Stack>
+                    )}
+                </Box>
+                <Divider sx={{ my: 3 }} />
                 <Box sx={{ mt: 5 }}>
                     <Typography variant="h6" gutterBottom>
                         댓글 ({ comments.length })
@@ -170,6 +248,8 @@ const PostDetail = () => {
                                 isLoggedIn={ isLoggedIn }
                                 currentUser={ user }
                                 onDeleteSuccess={ handleCommentDeleted }
+                                onUpdateSuccess={ handleCommentUpdated }
+                                isDarkMode={ isDarkMode }
                             />
                         ))}
                     </List>
