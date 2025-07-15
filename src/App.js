@@ -10,6 +10,7 @@ import PostDetail from './pages/PostDetail';
 import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
 import { Box } from '@mui/material';
+import AccountBook from './pages/AccountBook';
 
 function App() {
     
@@ -22,15 +23,16 @@ function App() {
                 <Routes>
                     <Route path="/login" element={ <Signin /> } />
                     <Route path="/signup" element={ <Signup /> } />
-                    <Route path="/devboard" element={ <DevBoard /> } />
-                    <Route path="/devboard/:id" element={ <PostDetail /> } />
-                    <Route path="/devboard/write" element={ <Editor /> } />
+                    <Route path="/accountbook" element={ <AccountBook /> } />
+                    <Route path="/board" element={ <DevBoard /> } />
+                    <Route path="/board/:id" element={ <PostDetail /> } />
+                    <Route path="/board/write" element={ <Editor /> } />
                     <Route path="/mypage" element={
                         <PrivateRoute isLoggedIn={ isLoggedIn }>
                             <MyPage />
                         </PrivateRoute>
                     } />
-                    <Route path="/devboard/edit/:id" element={
+                    <Route path="/board/edit/:id" element={
                         <PrivateRoute isLoggedIn={ isLoggedIn }>
                             <Editor />
                         </PrivateRoute>

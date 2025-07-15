@@ -1,11 +1,11 @@
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, TextField, Button, Typography, Container, Stack, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material"
 import { DevBlogContext } from "../context/DevBlogProvider";
 import api from "../api/api";
 
-const Signup = ({ children }) => {
+const Signup = () => {
 
     // 기본 state
     const [username, setUserName] = useState("");
@@ -134,6 +134,30 @@ const Signup = ({ children }) => {
         navigate('/login');
     };
 
+    const handleUsernameBlur = useCallback(async () => {
+        if(!username || userNameError) return;
+        try {
+            const response = await api.get(`/api/auth/check-username/${username}`);
+            if(response.data === true) {
+                setUserNameError("이미 사용 중인 아이디입니다.");
+            }
+        } catch (error) {
+            console.error("아이디 중복 체크 실패: ", error);
+        }
+    })
+
+    const handleNicknameBlur = useCallback(async () => {
+        if(!nickname || nicknameError) return;
+        try {
+            const response = await api.get(`/api/auth/check-nickname/${nickname}`);
+            if(response.data === true) {
+                setNicknameError("이미 사용 중인 닉네임입니다.");
+            }
+        } catch (error) {
+            console.error("닉네임 중복 체크 실패: ", error);
+        }
+    })
+
     return(
         <Container component="main" maxWidth="sm">
             <Box sx={{ my: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -149,11 +173,11 @@ const Signup = ({ children }) => {
                     <Stack component="form" spacing={ 5 } noValidate>
                         <TextField
                             required fullWidth variant="standard" label="아이디" value={ username } onChange={ handleUserNameChange }
-                            error={ !!userNameError } helperText={ userNameError }
+                            error={ !!userNameError } helperText={ userNameError } onBlur={ handleUsernameBlur }
                         />
                         <TextField
                             fullWidth variant="standard" label="닉네임" value={ nickname } onChange={ handleNicknameChange }
-                            error={ !!nicknameError } helperText={ nicknameError }
+                            error={ !!nicknameError } helperText={ nicknameError } onBlur={ handleNicknameBlur }
                         />
                         <TextField
                             required fullWidth variant="standard" label="비밀번호" value={password} onChange={ handlePasswordChange }

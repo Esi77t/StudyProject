@@ -70,7 +70,7 @@ const PostDetail = () => {
     };
 
     const handleEditClick = () => {
-        navigate(`/devboard/edit/${ id }`);
+        navigate(`/board/edit/${ id }`);
     };
 
     const handleDeleteClick = async () => {
@@ -78,7 +78,7 @@ const PostDetail = () => {
             try {
                 await api.delete(`/api/posts/${ id }`);
                 alert('게시글이 성공적으로 삭제되었습니다.');
-                navigate('/devboard');
+                navigate('/board');
             } catch (error) {
                 console.error("게시글 삭제 실패: ", error);
                 alert("게시글 삭제에 실패했습니다.");
@@ -129,7 +129,7 @@ const PostDetail = () => {
             <Container maxWidth="md" sx={{ my: 4 }}>
                 <Paper sx={{ p: 4, textAlign: 'center' }}>
                     <Typography variant="h6" sx={{ mb: 2 }}>게시글을 찾을 수 없습니다.</Typography>
-                    <Button variant="outlined" onClick={() => navigate('/devboard')} startIcon={<ListIcon />}>
+                    <Button variant="outlined" onClick={() => navigate('/board')} startIcon={<ListIcon />}>
                         목록으로
                     </Button>
                 </Paper>
@@ -188,7 +188,7 @@ const PostDetail = () => {
                     <Button variant="outlined" color="error" onClick={ handleDeleteClick } startIcon={ <DeleteIcon /> }>
                         삭제
                     </Button>
-                    <Button variant="contained" onClick={() => navigate('/devboard')} startIcon={ <ListIcon /> }>
+                    <Button variant="contained" onClick={() => navigate('/board')} startIcon={ <ListIcon /> }>
                         목록으로
                     </Button>
                 </Stack>

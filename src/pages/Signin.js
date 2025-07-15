@@ -27,7 +27,7 @@ const Signin = () => {
 
                 handleLogin(userData);
 
-                navigate("/devboard");
+                navigate("/board");
             }
         } catch (error) {
             console.error("로그인 실패: ", error);

@@ -1,5 +1,5 @@
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { DevBlogContext } from "../context/DevBlogProvider";
 import { AppBar, Toolbar, Typography, Box, Button, IconButton, Container } from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";
@@ -51,16 +51,15 @@ const Header = () => {
                             variant="h5"
                             noWrap
                             component={ RouterLink }
-                            to="/devboard"
+                            to="/accountbook"
                             sx={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}
                         >
                             DevBlog
                         </Typography>
-                        
                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', height: '100%' }}>
                             <Box
                                 component={ RouterLink }
-                                to="/devboard"
+                                to="/accountbook"
                                 sx={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -73,7 +72,7 @@ const Header = () => {
                                         backgroundColor: 'action.hover',
                                         borderRadius: '8px 8px 0 0',
                                     },
-                                    '&::after': isActive('/devboard') ? {
+                                    '&::after': isActive('/accountbook') ? {
                                         content: '""',
                                         position: 'absolute',
                                         bottom: 0,
@@ -88,7 +87,43 @@ const Header = () => {
                                     sx={{
                                         color: 'text.primary',
                                         fontSize: '1rem',
-                                        fontWeight: isActive('/devboard') ? 600 : 500,
+                                        fontWeight: isActive('/accountbook') ? 600 : 500,
+                                    }}
+                                >
+                                    가계부
+                                </Typography>
+                            </Box>
+                            <Box
+                                component={ RouterLink }
+                                to="/board"
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    position: 'relative',
+                                    height: '70px',
+                                    px: 2,
+                                    textDecoration: 'none',
+                                    transition: 'background-color 0.2s',
+                                    '&:hover': {
+                                        backgroundColor: 'action.hover',
+                                        borderRadius: '8px 8px 0 0',
+                                    },
+                                    '&::after': isActive('/board') ? {
+                                        content: '""',
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: '2.5px',
+                                        backgroundColor: 'text.primary',
+                                    } : {},
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        color: 'text.primary',
+                                        fontSize: '1rem',
+                                        fontWeight: isActive('/board') ? 600 : 500,
                                     }}
                                 >
                                     게시판

@@ -22,7 +22,7 @@ const Editor = () => {
                     setPostData(response.data);
                 } catch (error) {
                     alert("게시글 정보를 불러오는데 실패했습니다.");
-                    navigate('/devboard');
+                    navigate('/board');
                 } finally {
                     setLoading(false);
                 }
@@ -56,11 +56,11 @@ const Editor = () => {
             if (isEditMode) {
                 await api.put(`/api/posts/${id}`, formData);
                 alert("게시글이 성공적으로 수정되었습니다.");
-                navigate(`/devboard/${id}`);
+                navigate(`/board/${id}`);
             } else {
                 const response = await api.post('/api/posts', formData);
                 alert('게시글이 성공적으로 작성되었습니다.');
-                navigate(`/devboard/${response.data.id}`);
+                navigate(`/board/${response.data.id}`);
             }
         } catch (error) {
             alert("게시글 처리에 실패했습니다. 로그인 상태를 확인해주세요.");

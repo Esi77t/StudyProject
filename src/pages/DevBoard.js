@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, IconButton, Box, Stack, CircularProgress, Button, Pagination } from "@mui/material";
+import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import api from "../api/api";
@@ -16,42 +16,49 @@ const DevBoard = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [searchType, setSearchType] = useState('title_content');
+    const [keyword, setKeyword] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const [categoriesRes, postsRes] = await Promise.all([
-                    api.get('/api/categories'),
-                    api.get('/api/posts')
-                ]);
-                setCategories(categoriesRes.data);
-                setPosts(postsRes.data);
-            } catch (error) {
-                console.error("데이터를 불러오는데 실패했습니다.", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         setLoading(true);
+    //         try {
+    //             const [categoriesRes, postsRes] = await Promise.all([
+    //                 api.get('/api/categories'),
+    //                 api.get('/api/posts')
+    //             ]);
+    //             setCategories(categoriesRes.data);
+    //             setPosts(postsRes.data);
+    //         } catch (error) {
+    //             console.error("데이터를 불러오는데 실패했습니다.", error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                if (categories.length === 0) {
+                if(categories.length === 0) {
                     const categoriesRes = await api.get('/api/categories');
                     setCategories(categoriesRes.data);
                 }
 
                 const params = {
                     categoryId: selectedCategoryId,
-                    page: currentPage - 1, 
-                    size: 10
+                    page: currentPage - 1,
+                    size: 10,
+                    searchType: searchTerm.trim() ? searchType : null,
+                    keyword: searchTerm.trim() || null
                 };
+
                 const postsRes = await api.get('/api/posts', { params });
                 
                 setPosts(postsRes.data.content);
@@ -64,7 +71,7 @@ const DevBoard = () => {
             }
         };
         fetchData();
-    }, [selectedCategoryId, currentPage]);
+    }, [selectedCategoryId, currentPage, searchTerm]);
 
     const selectedCategory = categories.find(cat => cat.id === selectedCategoryId);
     const displayTitle = selectedCategory ? selectedCategory.name : "게시판";
@@ -73,60 +80,93 @@ const DevBoard = () => {
         setCurrentPage(value);
     };
 
+    const handleCategorySelect = (categoryId) => {
+        if (selectedCategoryId !== categoryId) {
+            setSelectedCategoryId(categoryId);
+            setCurrentPage(1);
+            setSearchTerm('');
+            setKeyword('');
+        }
+    };
+
+    const handleSearch = () => {
+        setCurrentPage(1);
+        setSearchTerm(keyword);
+    }
 
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
-            <Box sx={{ display: 'flex', gap: 4 }}>
-                <Box sx={{ flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
-                    <CategorySidebar
-                        categories={ categories }
-                        selectedCategoryId={ selectedCategoryId }
-                        onSelectCategory={ setSelectedCategoryId }
-                    />
-                </Box>
-                <Box sx={{ flexGrow: 1 }}>
-                    <Stack spacing={3}>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <Typography variant="h4" component="h2" fontWeight={600}>
-                                { displayTitle }
-                            </Typography>
-                            <TextField
-                                size="small"
-                                variant="outlined"
-                                placeholder="검색..."
-                                InputProps={{
-                                    endAdornment: (
-                                        <IconButton type="button" size="small"><SearchIcon /></IconButton>
-                                    ),
-                                }}
-                            />
-                        </Box>
-                        { loading ? <CircularProgress /> : <PostTable posts={ posts } /> }
-                        {posts.length > 0 && (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-                                    <Pagination
-                                        count={totalPages}
-                                        page={currentPage}
-                                        onChange={handlePageChange}
-                                        color="primary"
+            <Paper sx={{ p: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
+                    <Box sx={{ flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+                        <CategorySidebar
+                            categories={ categories }
+                            selectedCategoryId={ selectedCategoryId }
+                            onSelectCategory={ handleCategorySelect }
+                        />
+                    </Box>
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Stack spacing={3}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <Typography variant="h4" component="h2" fontWeight={ 600 }>
+                                    { displayTitle }
+                                </Typography>
+                                <Stack direction="row" spacing={ 1 }>
+                                    <Select
+                                        size="small"
+                                        value={ searchType }
+                                        onChange={(e) => setSearchType(e.target.value)}
+                                    >
+                                        <MenuItem value="title_content">제목+내용</MenuItem>
+                                        <MenuItem value="title">제목</MenuItem>
+                                        <MenuItem value="content">내용</MenuItem>
+                                        <MenuItem value="author">작성자</MenuItem>
+                                        <MenuItem value="comment">댓글</MenuItem>
+                                    </Select>
+                                    <TextField
+                                        size="small"
+                                        variant="outlined"
+                                        placeholder="검색"
+                                        value={ keyword }
+                                        onChange={(e) => setKeyword(e.target.value)}
+                                        onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <SearchIcon size="small" sx={{ mr: 1, color: '#868686ff' }} />
+                                            ),
+                                        }}
                                     />
-                                </Box>
-                            )}
-                        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                startIcon={<CreateIcon />}
-                                onClick={() => navigate('/devboard/write')}
-                            >
-                                글쓰기
-                            </Button>
-                        </Box>
-                    </Stack>
+                                </Stack>
+                            </Box>
+                            <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+                                { loading ? <CircularProgress /> : <PostTable posts={ posts } /> }
+                            </Box>
+                            {posts.length > 0 && (
+                                    <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+                                        <Pagination
+                                            count={ totalPages }
+                                            page={ currentPage }
+                                            onChange={ handlePageChange }
+                                            color="primary"
+                                        />
+                                    </Box>
+                                )}
+                            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    startIcon={<CreateIcon />}
+                                    onClick={() => navigate('/board/write')}
+                                >
+                                    글쓰기
+                                </Button>
+                            </Box>
+                        </Stack>
+                    </Box>
                 </Box>
-            </Box>
+            </Paper>
         </Container>
     );
-};
+}
 
 export default DevBoard;

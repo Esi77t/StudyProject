@@ -6,7 +6,7 @@ const PostTable = ({ posts }) => {
     const navigate = useNavigate();
 
     const handlePostClick = (postId) => {
-        navigate(`/devboard/${ postId }`)
+        navigate(`/board/${ postId }`)
     }
 
     return(
