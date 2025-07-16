@@ -5,16 +5,16 @@ import { Box, Button, Container, Stack, TextField, Typography } from "@mui/mater
 import api from "../api/api";
 
 const Signin = () => {
-    
+
     const [username, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const { handleLogin, isDarkMode } = useContext(DevBlogContext);
+    const { handleLogin } = useContext(DevBlogContext);
 
     const navigate = useNavigate();
 
-    const handleApiLogin = async() => {
+    const handleApiLogin = async () => {
         try {
-            const response = await api.post('/api/auth/login',{
+            const response = await api.post('/api/auth/login', {
                 username: username,
                 password: password,
             });
@@ -22,12 +22,12 @@ const Signin = () => {
             const token = response.headers['authorization'];
             const userData = response.data;
 
-            if(token) {
+            if (token) {
                 localStorage.setItem('jwt', token);
 
                 handleLogin(userData);
 
-                navigate("/board");
+                navigate("/accountbook");
             }
         } catch (error) {
             console.error("로그인 실패: ", error);
@@ -39,7 +39,7 @@ const Signin = () => {
         navigate("/signup");
     }
 
-    return(
+    return (
         <Container
             component="main"
             maxWidth="xs"
@@ -49,7 +49,7 @@ const Signin = () => {
                 minHeight: 'calc(100vh - 110px)'
             }}
         >
-            <Box sx={{ 
+            <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
@@ -58,8 +58,8 @@ const Signin = () => {
                 backgroundColor: 'background.paper',
                 borderRadius: '12px',
             }}>
-                <Typography 
-                    component="h1" 
+                <Typography
+                    component="h1"
                     sx={{
                         fontSize: '24px',
                         fontWeight: 700,
@@ -68,7 +68,7 @@ const Signin = () => {
                 >
                     DevBlog
                 </Typography>
-                <Stack component="form" spacing={ 5 } sx={{ width: '100%' }} noValidate>
+                <Stack component="form" spacing={5} sx={{ width: '100%' }} noValidate>
                     <TextField
                         required
                         fullWidth
@@ -100,37 +100,35 @@ const Signin = () => {
                     type="button"
                     fullWidth
                     variant="contained"
-                    onClick={ handleApiLogin }
-                    sx={{ 
+                    onClick={handleApiLogin}
+                    sx={(theme) => ({
                         mt: 3,
                         mb: 1,
                         py: '14px',
                         fontSize: '16px',
                         fontWeight: '600',
-                        backgroundColor:  isDarkMode ? '#eee' : 'grey.800',
-                        color: isDarkMode ? '#333' : 'grey.300',
+                        backgroundColor: theme.palette.mode === 'dark' ? '#eee' : 'grey.800',
+                        color: theme.palette.mode === 'dark' ? '#333' : 'grey.300',
                         '&:hover': {
-                            backgroundColor: isDarkMode ? '#ddd' : 'grey.700',
-                        }
-                }}>
+                        backgroundColor: theme.palette.mode === 'dark' ? '#ddd' : 'grey.700',
+                    }})}>
                     로그인
                 </Button>
                 <Button
                     type="button"
                     fullWidth
                     variant="text"
-                    onClick={ handleSignup }
-                    sx={{
+                    onClick={handleSignup}
+                    sx={(theme) => ({
                         py: '14px',
                         fontSize: '14px',
-                        backgroundColor: isDarkMode ? 'grey.800' : '#eee',
-                        color: isDarkMode ? '#fff' : '#333',
+                        backgroundColor: theme.palette.mode === 'dark' ? 'grey.800' : '#eee',
+                        color: theme.palette.mode === 'dark' ? 'grey.300' : '#333',
                         '&:hover': {
-                            backgroundColor: isDarkMode ? 'grey.700' : '#ddd',
-                        }
-                }}>
-                        회원이 아니시라면? 회원가입
-                    </Button>
+                        backgroundColor: theme.palette.mode === 'dark' ? 'grey.700' : '#ddd',
+                    }})}>
+                    회원이 아니시라면? 회원가입
+                </Button>
             </Box>
         </Container>
     )

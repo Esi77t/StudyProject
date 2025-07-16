@@ -82,20 +82,20 @@ const CommentItem = ({ comment, isLast, isLoggedIn, currentUser, onDeleteSuccess
                         </>
                     ) : (
                         <>
-                            <Button size="small" onClick={ () => setIsEditing(true) } sx={{
-                                    backgroundColor: isDarkMode ? 'grey.700' : 'grey.200',
-                                    color: 'text.primary',
-                                    '&:hover': {
-                                        backgroundColor: isDarkMode ? 'grey.600' : 'grey.300',
-                                    }
-                                }}>수정</Button>
+                            <Button size="small" onClick={ () => setIsEditing(true) } sx={(theme) => ({
+                                backgroundColor: theme.palette.mode === 'dark' ? 'grey.700' : 'grey.200',
+                                color: 'text.primary',
+                                '&:hover': {
+                                    backgroundColor: theme.palette.mode === 'dark' ? 'grey.600' : 'grey.300',
+                                }
+                            })}>수정</Button>
                             <Button size="small" color="error" onClick={ handleDelete } sx={{
                                     backgroundColor: '#d32f2f', // 에러 색상
                                     color: 'white',
                                     '&:hover': {
                                         backgroundColor: '#c62828',
                                     }
-                                }}>삭제</Button>
+                            }}>삭제</Button>
                         </>
                     )}
                 </Stack>

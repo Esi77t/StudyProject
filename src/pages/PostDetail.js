@@ -7,7 +7,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import api from "../api/api";
 import CommentItem from "../components/CommentItem";
 import { DevBlogContext } from "../context/DevBlogProvider";
-import { Attachment as AttachmentIcon, UploadFile as UploadFileIcon } from "@mui/icons-material"
+import { Attachment as AttachmentIcon, UploadFile as UploadFileIcon } from "@mui/icons-material";
+import "../css/PostForm.css";
 
 const PostDetail = () => {
 
@@ -139,7 +140,7 @@ const PostDetail = () => {
 
     return(
         <Container maxWidth="md" sx={{ my: 4 }}>
-            <Paper elevation={ 2 } sx={{ p: { xs: 2, sm: 4 } }}>
+            <Paper elevation={ 0 } sx={{ p: { xs: 2, sm: 4 } }}>
                 <Box sx={{ pb: 3, mb: 3, borderBottom: '1px solid', borderColor: 'divider' }}>
                     <Typography variant="h4" component="h1" gutterBottom sx={{ fontWeight: 600, wordBreak: 'break-word' }}>
                         { post.title }
@@ -151,7 +152,7 @@ const PostDetail = () => {
                     </Stack>
                 </Box>
                 <Box
-                    className="post-content-area"
+                    className="tiptap"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                     sx={{
                         py: 2,

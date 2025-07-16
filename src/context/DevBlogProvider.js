@@ -58,6 +58,7 @@ const DevBlogProvider = ({ children }) => {
     }
 
     const handleLogout = () => {
+        alert("로그아웃이 되었습니다.");
         setIsLoggedIn(false);
         setUser(null);
         localStorage.removeItem('jwt');

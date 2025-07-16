@@ -1,5 +1,5 @@
 import Signin from './pages/Signin';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
 import Header from './components/Header';
 import DevBoard from './pages/DevBoard';
@@ -11,6 +11,8 @@ import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
 import { Box } from '@mui/material';
 import AccountBook from './pages/AccountBook';
+import NotFoundPage from './pages/NotFoundPage';
+import FindIdPage from './pages/FindIdPage';
 
 function App() {
     
@@ -21,7 +23,9 @@ function App() {
             <Header />
             <Box sx={{ paddingTop: '110px' }}>
                 <Routes>
+                    <Route path="/" element={ <Navigate to="/accountbook" replace /> } />
                     <Route path="/login" element={ <Signin /> } />
+                    <Route path="/find-id" element={ <FindIdPage /> } />
                     <Route path="/signup" element={ <Signup /> } />
                     <Route path="/accountbook" element={ <AccountBook /> } />
                     <Route path="/board" element={ <DevBoard /> } />
@@ -37,6 +41,7 @@ function App() {
                             <Editor />
                         </PrivateRoute>
                     } />
+                    <Route path="*" element={ <NotFoundPage /> } />
                 </Routes>
             </Box>
         </BrowserRouter>

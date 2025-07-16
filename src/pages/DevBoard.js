@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -6,6 +6,7 @@ import CreateIcon from "@mui/icons-material/Create";
 import api from "../api/api";
 import CategorySidebar from "../components/CategorySidebar";
 import PostTable from "../components/PostTable";
+import { DevBlogContext } from "../context/DevBlogProvider";
 
 const DevBoard = () => {
     
@@ -22,6 +23,8 @@ const DevBoard = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+
+    const { isLoggedIn } = useContext(DevBlogContext);
 
     // useEffect(() => {
     //     const fetchData = async () => {
@@ -94,9 +97,19 @@ const DevBoard = () => {
         setSearchTerm(keyword);
     }
 
+    const handleWrite = () => {
+        if(!isLoggedIn) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        navigate('/board/write');
+    }
+
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
-            <Paper sx={{ p: 4 }}>
+            <Paper elevation={ 0 } sx={{ p: 4 }}>
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
                     <Box sx={{ flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
                         <CategorySidebar
@@ -156,7 +169,7 @@ const DevBoard = () => {
                                     variant="contained"
                                     color="primary"
                                     startIcon={<CreateIcon />}
-                                    onClick={() => navigate('/board/write')}
+                                    onClick={ handleWrite }
                                 >
                                     글쓰기
                                 </Button>

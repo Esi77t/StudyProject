@@ -11,11 +11,18 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import api from "../api/api";
 import History from "@tiptap/extension-history";
+import "../css/PostForm.css";
 
 const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
     if(!editor) return null;
     return(
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', p: 1, borderColor: 'divider', borderWidth: '100%', '& .MuiToggleButton-root': { border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0 }} }}>
+        <Box sx={{ 
+            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', p: 1,
+            borderBottom: '1px solid', borderColor: 'divider',
+            '& .MuiToggleButton-root': {
+                border: 0, borderRadius: 1,
+                '&.Mui-disabled': { border: 0 }
+            } }}>
             <ToggleButton value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>H1</ToggleButton>
             <ToggleButton value="h2" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} selected={editor.isActive('heading', { level: 2 })} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>H2</ToggleButton>
             <ToggleButton value="p" size="small" onClick={() => editor.chain().focus().setParagraph().run()} selected={editor.isActive('paragraph')} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>P</ToggleButton>
