@@ -71,7 +71,7 @@ const DevBlogProvider = ({ children }) => {
 
     const contextValue = useMemo(() => ({
         isLoggedIn, setIsLoggedIn, isDarkMode, setIsDarkMode, headerRef, toggleDarkMode, handleLogout, handleLogin, user, setUser, loading
-    }), [isLoggedIn, user, loading])
+    }), [isLoggedIn, user, loading, isDarkMode])
 
     if(loading) {
         return null;

@@ -12,7 +12,7 @@ const Editor = () => {
 
     const [postData, setPostData] = useState({ title: '', content: '' });
     const [loading, setLoading] = useState(true);
-    const editorRef = useRef();
+    // const editorRef = useRef();
 
     useEffect(() => {
         if (isEditMode) {
