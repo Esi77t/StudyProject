@@ -47,7 +47,7 @@ const CommentItem = ({ comment, isLast, isLoggedIn, currentUser, onDeleteSuccess
         <ListItem alignItems="flex-start" divider={!isLast} sx={{ py: 2, flexDirection: 'column' }}>
             <Box sx={{ display: 'flex', width: '100%', mb: 1 }}>
                 <ListItemAvatar sx={{ mt: 0.5 }}>
-                    <Avatar alt={comment.author} src="/static/images/avatar/1.jpg" />
+                    <Avatar alt={comment.author} src="/" />
                 </ListItemAvatar>
                 <ListItemText
                     primary={

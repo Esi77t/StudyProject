@@ -179,7 +179,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
     };
 
     return(
-        <Stack spacing={ 4 }>
+        <Stack spacing={ 4 } >
             <input type="file" ref={ fileInput } onChange={ handleFileChange } style={{ display: 'none' }} accept="image/*" />
             <TextField
                 fullWidth

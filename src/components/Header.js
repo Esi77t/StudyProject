@@ -54,7 +54,7 @@ const Header = () => {
                             to="/accountbook"
                             sx={{ fontWeight: 700, color: 'inherit', textDecoration: 'none' }}
                         >
-                            DevBlog
+                            AccountBook
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', height: '100%' }}>
                             <Box
