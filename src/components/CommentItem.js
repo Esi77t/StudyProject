@@ -1,9 +1,8 @@
-import { Avatar, IconButton, ListItem, ListItemAvatar, ListItemText, MenuItem, Stack, Typography, Box, Menu, Button, ListItemSecondaryAction, TextField } from "@mui/material"
+import { Avatar, ListItem, ListItemAvatar, ListItemText, Stack, Typography, Box, Button, TextField } from "@mui/material"
 import { useState } from "react";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import api from "../api/api";
 
-const CommentItem = ({ comment, isLast, isLoggedIn, currentUser, onDeleteSuccess, onUpdateSuccess, isDarkMode }) => {
+const CommentItem = ({ comment, isLast, isLoggedIn, currentUser, onDeleteSuccess, onUpdateSuccess }) => {
 
     const [isEditing, setIsEditing] = useState(false);
     const [editedContent, setEditedContent] = useState(comment.content);

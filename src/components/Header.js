@@ -1,5 +1,5 @@
 import { Link as RouterLink, useLocation } from "react-router-dom";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { DevBlogContext } from "../context/DevBlogProvider";
 import { AppBar, Toolbar, Typography, Box, Button, IconButton, Container } from "@mui/material";
 import { Brightness4, Brightness7 } from "@mui/icons-material";

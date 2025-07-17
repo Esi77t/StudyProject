@@ -33,23 +33,23 @@ const Editor = () => {
         }
     }, [isEditMode, id, navigate]);
 
-    const handleFileDrop = async (file) => {
-        const formData = new FormData();
-        formData.append('image', file);
-        try {
-            const response = await api.post('/api/posts/image', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' },
-            });
-            const imageUrl = response.data;
+    // const handleFileDrop = async (file) => {
+    //     const formData = new FormData();
+    //     formData.append('image', file);
+    //     try {
+    //         const response = await api.post('/api/posts/image', formData, {
+    //             headers: { 'Content-Type': 'multipart/form-data' },
+    //         });
+    //         const imageUrl = response.data;
 
-            if (imageUrl && editorRef.current) {
-                editorRef.current.chain().focus().setImage({ src: imageUrl }).run();
-            }
-        } catch (error) {
-            console.error("이미지 업로드 실패:", error);
-            alert("이미지 업로드에 실패했습니다.");
-        }
-    }
+    //         if (imageUrl && editorRef.current) {
+    //             editorRef.current.chain().focus().setImage({ src: imageUrl }).run();
+    //         }
+    //     } catch (error) {
+    //         console.error("이미지 업로드 실패:", error);
+    //         alert("이미지 업로드에 실패했습니다.");
+    //     }
+    // }
 
     const handleSubmit = async (formData) => {
         try {
