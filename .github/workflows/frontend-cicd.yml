@@ -24,7 +24,7 @@ jobs:
 
       - name: Build React App
         # API 서버 주소를 빌드 시점에 환경 변수로 주입
-        run: REACT_APP_API_URL=http://3.35.8.210:10000 npm run build
+        run: REACT_APP_API_URL=http://52.78.226.90:10000 npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
