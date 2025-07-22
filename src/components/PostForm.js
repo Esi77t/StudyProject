@@ -168,11 +168,6 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             return;
         }
 
-        if (selectedCategoryId === null) {
-            alert("카테고리를 선택해주세요.");
-            return;
-        }
-
         const attachmentIds = attachments.map(att => att.id);
 
         onSubmit({ 
@@ -228,7 +223,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             </Box>
             <Stack direction="row" spacing={ 2 } justifyContent="flex-end">
                 <Button variant="outlined" color="secondary">취소</Button>
-                <Button variant="contained" onClick={handleSubmit}>
+                <Button variant="contained" onClick={handleSubmit} disabled={selectedCategoryId === null || !title.trim() || editor.isEmpty}>
                     { isEditMode ? '수정 완료' : '작성 완료' }
                 </Button>
             </Stack>
