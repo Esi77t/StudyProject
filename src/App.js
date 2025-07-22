@@ -1,3 +1,4 @@
+import "./App.css"
 import Signin from './pages/Signin';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Signup from './pages/Signup';
