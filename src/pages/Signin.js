@@ -35,6 +35,12 @@ const Signin = () => {
         }
     };
 
+    const handleKeyDownLogin = (e) => {
+        if(e.key === 'Enter') {
+            handleApiLogin();
+        }
+    }
+
     const handleSignup = () => {
         navigate("/signup");
     }
@@ -105,6 +111,7 @@ const Signin = () => {
                     fullWidth
                     variant="contained"
                     onClick={handleApiLogin}
+                    onKeyDown={handleKeyDownLogin}
                     sx={(theme) => ({
                         mt: 3,
                         mb: 1,
