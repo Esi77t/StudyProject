@@ -47,7 +47,7 @@ const Signin = () => {
     return (
         <Container
             component="main"
-            maxWidth="xs"
+            maxWidth="sm"
             sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -59,14 +59,14 @@ const Signin = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 width: '100%',
-                p: 5,
+                p: { xs: 3, sm: 5 },
                 backgroundColor: 'background.paper',
                 borderRadius: '12px',
             }}>
                 <Typography
                     component="h1"
                     sx={{
-                        fontSize: '24px',
+                        fontSize: { xs: '20px', sm: '24px' },
                         fontWeight: 700,
                         mb: 4
                     }}
@@ -125,20 +125,14 @@ const Signin = () => {
                     justifyContent="center"
                     alignItems="center"
                     spacing={1}
-                    sx={{ width: '100%' }}
+                    sx={{ width: '100%', mt: 2 }}
                 >
                     <Button
                         variant="text"
                         sx={{ fontSize: '12px', color: 'text.secondary' }}
                         onClick={handleFindId}
                     >
-                        아이디 찾기
-                    </Button>
-                    <Button
-                        variant="text"
-                        sx={{ fontSize: '12px', color: 'text.secondary' }}
-                    >
-                        비밀번호 찾기
+                        아이디 / 비밀번호 찾기
                     </Button>
                 </Stack>
                 <Divider sx={{ mt: 2, fontSize: 12, }} orientation="horizontal" flexItem>또는</Divider>

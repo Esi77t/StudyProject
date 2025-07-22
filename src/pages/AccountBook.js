@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import api from "../api/api";
-import { Box, Button, CircularProgress, Container, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Container, FormControl, Grid, IconButton, InputLabel, MenuItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ExpenditureSidebar from "../components/ExpenditureSidebar";
 import { DevBlogContext } from "../context/DevBlogProvider";
@@ -72,7 +72,7 @@ const AccountBook = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             alert("로그인이 필요합니다.");
             navigate("/login");
             return;
@@ -108,13 +108,16 @@ const AccountBook = () => {
             <Typography variant="h4" component="h1" gutterBottom fontWeight={600} sx={{ mb: 3 }}>
                 가계부
             </Typography>
-            <Stack direction="row" spacing={4} alignItems="flex-start">
-                <Box sx={{ width: '200px', flexShrink: 0 }}>
-                    <ExpenditureSidebar summary={summaryData} />
-                </Box>
-                <Stack spacing={3} sx={{ flexGrow: 1, width: 'calc(100% - 332px)' }}>
-                    <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: 3 }}>
-                        <Stack direction="row" spacing={2} alignItems="center">
+            <Grid container spacing={4} alignItems="flex-start">
+                <Grid item xs={12} md={3}>
+                    <Box>
+                        <ExpenditureSidebar summary={summaryData} />
+                    </Box>
+                </Grid>
+                <Grid item xs={12} md={9}>
+                    <Stack spacing={3} sx={{ flexGrow: 1 }}>
+                        <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}> {/* 모바일 패딩 조절 */}
+                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
                                 <TextField
                                     name="date"
                                     label="날짜"
@@ -123,9 +126,9 @@ const AccountBook = () => {
                                     onChange={handleFormChange}
                                     InputLabelProps={{ shrink: true }}
                                     size="small"
-                                    sx={{ minWidth: 150 }}
+                                    sx={{ width: '100%' }}
                                 />
-                                <FormControl size="small" sx={{ minWidth: 120 }}>
+                                <FormControl size="small" sx={{ width: '100%' }}>
                                     <InputLabel>수입/지출</InputLabel>
                                     <Select
                                         name="type"
@@ -137,59 +140,54 @@ const AccountBook = () => {
                                         <MenuItem value="수입">수입</MenuItem>
                                     </Select>
                                 </FormControl>
-                                <TextField name="category" label="분류" value={formData.category} onChange={handleFormChange} size="small" />
-                                <TextField name="description" label="내용" value={formData.description} onChange={handleFormChange} size="small" sx={{ flexGrow: 1 }} />
-                                <TextField name="amount" label="금액" type="number" value={formData.amount} onChange={handleFormChange} size="small" />
-                                <Button type="submit" variant="contained">추가</Button>
+                                <TextField name="category" label="분류" value={formData.category} onChange={handleFormChange} size="small" sx={{ width: '100%' }} />
+                                <TextField name="description" label="내용" value={formData.description} onChange={handleFormChange} size="small" sx={{ flexGrow: 1, width: '100%' }} />
+                                <TextField name="amount" label="금액" type="number" value={formData.amount} onChange={handleFormChange} size="small" sx={{ width: '100%' }} />
+                                <Button type="submit" variant="contained" sx={{ width: { xs: '100%', md: 'auto' } }}>추가</Button>
                             </Stack>
-                    </Paper>
-                    <TableContainer elevation={0} component={Paper} sx={{ p: 2 }}>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>날짜</TableCell>
-                                    <TableCell>분류</TableCell>
-                                    <TableCell>내용</TableCell>
-                                    <TableCell align="right" sx={{ width: '15%', pr: 1 }}>금액</TableCell>
-                                    <TableCell align="center" sx={{ width: '10%', px: 1 }}>삭제</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {loading ? (
+                        </Paper>
+                        <TableContainer elevation={0} component={Paper} sx={{ p: 2 }}>
+                            <Table>
+                                <TableHead>
                                     <TableRow>
-                                        <TableCell colSpan={5} align="center">
-                                            <CircularProgress />
-                                        </TableCell>
+                                        <TableCell>날짜</TableCell>
+                                        <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>분류</TableCell>
+                                        <TableCell>내용</TableCell>
+                                        <TableCell align="right" sx={{ width: '15%', pr: 1 }}>금액</TableCell>
+                                        <TableCell align="center" sx={{ width: '10%', px: 1 }}>삭제</TableCell>
                                     </TableRow>
-                                ) : transactions.length > 0 ? (
-                                    transactions.map((tr) => (
-                                        <TableRow key={tr.id}>
-                                            <TableCell>{tr.date}</TableCell>
-                                            <TableCell>{tr.category}</TableCell>
-                                            <TableCell>{tr.description}</TableCell>
-                                            <TableCell align="right" sx={{
-                                                color: tr.type === '지출' ? 'error.main' : 'primary.main',
-                                                fontWeight: 'bold',
-                                                pr: 1
-                                            }}>
-                                                {tr.type === '지출' ? '-' : '+'}
-                                                {tr.amount.toLocaleString()}원
-                                            </TableCell>
-                                            <TableCell align="center" sx={{ px: 1 }}>
-                                                <IconButton size="small" onClick={() => handleDelete(tr.id)}>
-                                                    <DeleteIcon fontSize="inherit" />
-                                                </IconButton>
-                                            </TableCell>
+                                </TableHead>
+                                <TableBody>
+                                    {loading ? (
+                                        <TableRow>
+                                            <TableCell colSpan={5} align="center"><CircularProgress /></TableCell>
                                         </TableRow>
-                                    ))
-                                ) : (
-                                    <TableRow><TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell></TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Stack>
-            </Stack>
+                                    ) : transactions.length > 0 ? (
+                                        transactions.map((tr) => (
+                                            <TableRow key={tr.id}>
+                                                <TableCell>{tr.date}</TableCell>
+                                                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{tr.category}</TableCell>
+                                                <TableCell>{tr.description}</TableCell>
+                                                <TableCell align="right" sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold', pr: 1 }}>
+                                                    {tr.type === '지출' ? '-' : '+'}
+                                                    {tr.amount.toLocaleString()}원
+                                                </TableCell>
+                                                <TableCell align="center" sx={{ px: 1 }}>
+                                                    <IconButton size="small" onClick={() => handleDelete(tr.id)}>
+                                                        <DeleteIcon fontSize="inherit" />
+                                                    </IconButton>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow><TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell></TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Stack>
+                </Grid>
+            </Grid>
         </Container>
     )
 }
