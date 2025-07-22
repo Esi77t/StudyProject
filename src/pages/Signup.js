@@ -160,12 +160,13 @@ const Signup = () => {
 
     return(
         <Container component="main" maxWidth="sm">
-            <Box sx={{ my: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box elevation={0} sx={{ my: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Box sx={{ 
                     width: '100%',
                     p: 5,
                     backgroundColor: 'background.paper',
                     borderRadius: '12px',
+                    boxShadow: 0,
                 }}>
                     <Typography component="h1" variant="h5" align="center" fontWeight="700" mb={ 4 }>
                         회원가입

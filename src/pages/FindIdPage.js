@@ -29,7 +29,7 @@ const FindIdPage = () => {
 
     return (
         <Container maxWidth="sm" sx={{ my: 4 }}>
-            <Paper sx={{ p: 4 }}>
+            <Paper elevation={0} sx={{ p: 4 }}>
                 <Typography variant="h4" component="h1" gutterBottom fontWeight={600}>
                     아이디 찾기
                 </Typography>
