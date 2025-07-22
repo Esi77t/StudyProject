@@ -12,7 +12,8 @@ const Signin = () => {
 
     const navigate = useNavigate();
 
-    const handleApiLogin = async () => {
+    const handleApiLogin = async (event) => {
+        event.preventDefault();
         try {
             const response = await api.post('/api/auth/login', {
                 username: username,
@@ -34,12 +35,6 @@ const Signin = () => {
             alert("아이디 또는 비밀번호를 확인해주세요.");
         }
     };
-
-    const handleKeyDownLogin = (e) => {
-        if(e.key === 'Enter') {
-            handleApiLogin();
-        }
-    }
 
     const handleSignup = () => {
         navigate("/signup");
@@ -78,7 +73,7 @@ const Signin = () => {
                 >
                     DevBlog
                 </Typography>
-                <Stack component="form" spacing={5} sx={{ width: '100%' }} noValidate>
+                <Stack component="form" spacing={5} sx={{ width: '100%' }} noValidate onSubmit={handleApiLogin}>
                     <TextField
                         required
                         fullWidth
@@ -107,11 +102,10 @@ const Signin = () => {
                     />
                 </Stack>
                 <Button
-                    type="button"
+                    type="submit"
                     fullWidth
                     variant="contained"
-                    onClick={handleApiLogin}
-                    onKeyDown={handleKeyDownLogin}
+                    onClick={(e) => handleApiLogin(e)}
                     sx={(theme) => ({
                         mt: 3,
                         mb: 1,
