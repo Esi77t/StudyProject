@@ -28,12 +28,12 @@ const FindIdPage = () => {
     }
 
     return (
-        <Container maxWidth="sm" sx={{ my: 4 }}>
-            <Paper elevation={0} sx={{ p: 4 }}>
-                <Typography variant="h4" component="h1" gutterBottom fontWeight={600}>
+        <Container maxWidth="sm" sx={{ my: 4, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <Paper elevation={0} sx={{ p: 4, width: '80%' }}>
+                <Typography variant="h6" component="h4" gutterBottom fontWeight={600} textAlign="center">
                     아이디 찾기
                 </Typography>
-                <Stack spacing={2} sx={{ mt: 3 }}>
+                <Stack spacing={2} sx={{ mt: 4 }}>
                     <TextField
                         label="가입 시 사용한 이메일"
                         type="email"

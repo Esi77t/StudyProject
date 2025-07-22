@@ -168,6 +168,11 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             return;
         }
 
+        if (!selectedCategoryId) {
+            alert("카테고리를 선택해주세요.");
+            return;
+        }
+
         const attachmentIds = attachments.map(att => att.id);
 
         onSubmit({ 
