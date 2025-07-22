@@ -168,7 +168,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             return;
         }
 
-        if (!selectedCategoryId) {
+        if (selectedCategoryId === null) {
             alert("카테고리를 선택해주세요.");
             return;
         }
