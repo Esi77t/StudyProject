@@ -223,7 +223,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             </Box>
             <Stack direction="row" spacing={ 2 } justifyContent="flex-end">
                 <Button variant="outlined" color="secondary">취소</Button>
-                <Button variant="contained" onClick={handleSubmit} disabled={selectedCategoryId === null || !title.trim() || editor.isEmpty}>
+                <Button variant="contained" onClick={handleSubmit} disabled={selectedCategoryId === '' || !title.trim() || editor.isEmpty}>
                     { isEditMode ? '수정 완료' : '작성 완료' }
                 </Button>
             </Stack>
