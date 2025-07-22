@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DevBlogContext } from "../context/DevBlogProvider";
-import { Box, Button, Container, Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, Divider, Stack, TextField, Typography } from "@mui/material"
 import api from "../api/api";
 
 const Signin = () => {
@@ -37,6 +37,10 @@ const Signin = () => {
 
     const handleSignup = () => {
         navigate("/signup");
+    }
+
+    const handleFindId = () => {
+        navigate("/find-id");
     }
 
     return (
@@ -110,23 +114,43 @@ const Signin = () => {
                         backgroundColor: theme.palette.mode === 'dark' ? '#eee' : 'grey.800',
                         color: theme.palette.mode === 'dark' ? '#333' : 'grey.300',
                         '&:hover': {
-                        backgroundColor: theme.palette.mode === 'dark' ? '#ddd' : 'grey.700',
-                    }})}>
+                            backgroundColor: theme.palette.mode === 'dark' ? '#ddd' : 'grey.700',
+                        }
+                    })}>
                     로그인
                 </Button>
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    spacing={1}
+                    sx={{ width: '100%' }}
+                >
+                    <Button
+                        variant="text"
+                        sx={{ fontSize: '12px', color: 'text.secondary' }}
+                        onClick={handleFindId}
+                    >
+                        아이디 찾기
+                    </Button>
+                    <Button
+                        variant="text"
+                        sx={{ fontSize: '12px', color: 'text.secondary' }}
+                    >
+                        비밀번호 찾기
+                    </Button>
+                </Stack>
+                <Divider sx={{ mt: 2, fontSize: 12, }} orientation="horizontal" flexItem>또는</Divider>
                 <Button
                     type="button"
                     fullWidth
                     variant="text"
                     onClick={handleSignup}
-                    sx={(theme) => ({
+                    sx={{
+                        mt: 1,
                         py: '14px',
                         fontSize: '14px',
-                        backgroundColor: theme.palette.mode === 'dark' ? 'grey.800' : '#eee',
-                        color: theme.palette.mode === 'dark' ? 'grey.300' : '#333',
-                        '&:hover': {
-                        backgroundColor: theme.palette.mode === 'dark' ? 'grey.700' : '#ddd',
-                    }})}>
+                    }}>
                     회원이 아니시라면? 회원가입
                 </Button>
             </Box>
