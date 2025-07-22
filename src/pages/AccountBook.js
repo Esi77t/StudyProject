@@ -109,14 +109,14 @@ const AccountBook = () => {
                 가계부
             </Typography>
             <Grid container spacing={4} alignItems="flex-start">
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} sm={3}>
                     <Box>
                         <ExpenditureSidebar summary={summaryData} />
                     </Box>
                 </Grid>
-                <Grid item xs={12} md={9}>
+                <Grid item xs={12} sm={9}>
                     <Stack spacing={3} sx={{ flexGrow: 1 }}>
-                        <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}> {/* 모바일 패딩 조절 */}
+                        <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}>
                             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
                                 <TextField
                                     name="date"
