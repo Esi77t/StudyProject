@@ -104,7 +104,7 @@ const AccountBook = () => {
     }
 
     return (
-        <Container maxWidth="lg" sx={{ my: 4 }}>
+        <Container sx={{ my: 4 }}>
             <Typography variant="h4" component="h1" gutterBottom fontWeight={600} sx={{ mb: 3 }}>
                 가계부
             </Typography>
