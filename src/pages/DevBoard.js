@@ -167,20 +167,16 @@ const DevBoard = () => {
                                     <CircularProgress />
                                 ) : (
                                     <Box sx={{ width: '100%' }}>
-                                        {/* 2-1. PC용 테이블 뷰 (md 사이즈 이상) */}
                                         <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                                            {/* PostTable 컴포넌트가 PC용 테이블을 렌더링한다고 가정 */}
                                             <PostTable posts={posts} />
                                         </Box>
-
-                                        {/* 2-2. 모바일용 카드 뷰 (md 사이즈 미만) */}
                                         <Box sx={{ display: { xs: 'block', md: 'none' } }}>
                                             {posts.map((post) => (
                                                 <Paper
                                                     key={post.id}
                                                     variant="outlined"
                                                     sx={{ p: 2, mb: 1.5, cursor: 'pointer' }}
-                                                    onClick={() => navigate(`/board/${post.id}`)} // navigate 함수 사용
+                                                    onClick={() => navigate(`/board/${post.id}`)}
                                                 >
                                                     <Stack spacing={1}>
                                                         <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
@@ -190,7 +186,7 @@ const DevBoard = () => {
                                                             >
                                                                 {post.title}
                                                             </Typography>
-                                                            <Chip label={post.category?.name || '미분류'} size="small" sx={{ flexShrink: 0 }} />
+                                                            <Chip label={post.category_id.name || '미분류'} size="small" sx={{ flexShrink: 0 }} />
                                                         </Stack>
                                                         <Stack direction="row" spacing={2} sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
                                                             <span>{post.author}</span>
