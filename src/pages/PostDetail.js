@@ -266,7 +266,7 @@ const PostDetail = () => {
                             multiline
                             rows={ 2 }
                             variant="outlined"
-                            label="댓글을 입력하세요"
+                            placeholder="댓글을 입력하세요"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                         />

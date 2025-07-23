@@ -14,44 +14,59 @@ import History from "@tiptap/extension-history";
 import "../css/PostForm.css";
 
 const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
-    if(!editor) return null;
-    return(
-        <Box sx={{ 
-            display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center', p: 1,
-            borderBottom: '1px solid', borderColor: 'divider',
+    if (!editor) return null;
+    return (
+        <Box sx={{
+            display: 'flex', 
+            flexWrap: 'wrap', 
+            alignItems: 'center', 
+            p: 1,
+            borderBottom: '1px solid', 
+            borderColor: 'divider',
+            justifyContent: { xs: 'flex-start', md: 'center' },
             '& .MuiToggleButton-root': {
-                border: 0, borderRadius: 1,
-                '&.Mui-disabled': { border: 0 }
-            } }}>
-            <ToggleButton value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>H1</ToggleButton>
-            <ToggleButton value="h2" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} selected={editor.isActive('heading', { level: 2 })} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>H2</ToggleButton>
-            <ToggleButton value="p" size="small" onClick={() => editor.chain().focus().setParagraph().run()} selected={editor.isActive('paragraph')} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>P</ToggleButton>
-            <Divider flexItem orientation="vertical" sx={{ mx: 0.5, my: 1 }} />
-            <ToggleButton size="small" value="undo" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>
+                border: 'none',
+                borderRadius: 1,
+                fontWeight: 'bold',
+                '& .Mui-selected': {
+                    color: 'primary.main',
+                    backgroundColor: 'action.selected'
+                }
+            },
+            '& .MuiDivider-root': {
+                mx: 0.5,
+                my: 1,
+            }
+        }}>
+            <ToggleButton value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })}>H1</ToggleButton>
+            <ToggleButton value="h2" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} selected={editor.isActive('heading', { level: 2 })}>H2</ToggleButton>
+            <ToggleButton value="p" size="small" onClick={() => editor.chain().focus().setParagraph().run()} selected={editor.isActive('paragraph')} >P</ToggleButton>
+            <Divider flexItem orientation="vertical"/>
+            <ToggleButton size="small" value="undo" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
                 <Undo />
             </ToggleButton>
-            <ToggleButton size="small" value="redo" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}>
+            <ToggleButton size="small" value="redo" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
                 <Redo />
             </ToggleButton>
             <Divider flexItem orientation="vertical" sx={{ mx: 0.5 }} />
-            <ToggleButton size="small" value="bold" onClick={() => editor.chain().focus().toggleBold().run()} selected={ editor.isActive('bold') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><FormatBold /></ToggleButton>
-            <ToggleButton size="small" value="italic" onClick={() => editor.chain().focus().toggleItalic().run()} selected={ editor.isActive('italic') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><FormatItalic /></ToggleButton>
-            <ToggleButton size="small" value="bulletList" onClick={() => editor.chain().focus().toggleBulletList().run()} selected={ editor.isActive('bulletList') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><FormatListBulleted /></ToggleButton>
-            <ToggleButton size="small" value="orderedList" onClick={() => editor.chain().focus().toggleOrderedList().run()} selected={ editor.isActive('orderedList') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><FormatListNumbered /></ToggleButton>
-            <ToggleButton size="small" value="codeBlock" onClick={() => editor.chain().focus().toggleCodeBlock().run()} selected={ editor.isActive('codeBlock') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><Code /></ToggleButton>
+            <ToggleButton size="small" value="bold" onClick={() => editor.chain().focus().toggleBold().run()} selected={editor.isActive('bold')}><FormatBold /></ToggleButton>
+            <ToggleButton size="small" value="italic" onClick={() => editor.chain().focus().toggleItalic().run()} selected={editor.isActive('italic')}><FormatItalic /></ToggleButton>
+            <ToggleButton size="small" value="bulletList" onClick={() => editor.chain().focus().toggleBulletList().run()} selected={editor.isActive('bulletList')}><FormatListBulleted /></ToggleButton>
+            <ToggleButton size="small" value="orderedList" onClick={() => editor.chain().focus().toggleOrderedList().run()} selected={editor.isActive('orderedList')}><FormatListNumbered /></ToggleButton>
+            <ToggleButton size="small" value="codeBlock" onClick={() => editor.chain().focus().toggleCodeBlock().run()} selected={editor.isActive('codeBlock')}><Code /></ToggleButton>
             <Divider flexItem orientation="vertical" sx={{ mx: 0.5 }} />
-            <ToggleButton size="small" value="image" onClick={ onImageClick } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><ImageIcon /></ToggleButton>
-            <ToggleButton size="small" value="link" onClick={ onLinkClick } selected={editor.isActive('link')} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold' }}><LinkIcon /></ToggleButton>
-            <ToggleButton size="small" value="unlink" onClick={() => editor.chain().focus().unsetLink().run()} disabled={ !editor.isActive('link') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><LinkOff /></ToggleButton>
+            <ToggleButton size="small" value="image" onClick={onImageClick}><ImageIcon /></ToggleButton>
+            <ToggleButton size="small" value="link" onClick={onLinkClick} selected={editor.isActive('link')}><LinkIcon /></ToggleButton>
+            <ToggleButton size="small" value="unlink" onClick={() => editor.chain().focus().unsetLink().run()} disabled={!editor.isActive('link')}><LinkOff /></ToggleButton>
             <Divider flexItem orientation="vertical" sx={{ mx: 0.5 }} />
-            <ToggleButton size="small" value="table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()} sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><TableChart /></ToggleButton>
-            <ToggleButton size="small" value="deleteTable" onClick={() => editor.chain().focus().deleteTable().run()} disabled={ !editor.isActive('table') } sx={{ border: 0, borderRadius: 1, fontWeight: 'bold', '&.Mui-disabled': { border: 0, }, }}><Delete /></ToggleButton>
+            <ToggleButton size="small" value="table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><TableChart /></ToggleButton>
+            <ToggleButton size="small" value="deleteTable" onClick={() => editor.chain().focus().deleteTable().run()} disabled={!editor.isActive('table')}><Delete /></ToggleButton>
         </Box>
     )
 }
 
 const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode = false, initialCategoryId = '', }) => {
-    
+
     const [title, setTitle] = useState(initialTitle);
     const fileInput = useRef(null);
 
@@ -84,8 +99,8 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             attributes: {
                 class: 'tiptap-editor-content',
             },
-            handleDrop: function(view, event, slice, moved) {
-                if(event.dataTransfer?.files?.length > 0) {
+            handleDrop: function (view, event, slice, moved) {
+                if (event.dataTransfer?.files?.length > 0) {
                     event.preventDefault();
                     uploadImageToServer(event.dataTransfer.files[0]);
                     return true;
@@ -105,9 +120,9 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
             const response = await api.post('/api/attachments/temp', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-            
+
             const newAttachment = response.data; // {id, originalFileName, s3Url}
-            
+
             setAttachments(prev => [...prev, newAttachment]);
 
             if (newAttachment.s3Url && editor) {
@@ -129,11 +144,11 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
     };
 
     const setLink = useCallback(() => {
-        
+
         const previousUrl = editor.getAttributes('link').href;
         const url = window.prompt('URL', previousUrl);
-        
-        if(url === null || url === '') {
+
+        if (url === null || url === '') {
             editor.chain().focus().extendMarkRange('link').unsetLink().run();
             return;
         }
@@ -154,8 +169,8 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
     }, []);
 
     useEffect(() => {
-        if(editor) {
-            if(editor.getHTML() !== initialContent) {
+        if (editor) {
+            if (editor.getHTML() !== initialContent) {
                 editor.commands.setContent(initialContent);
             }
             setTitle(initialTitle);
@@ -170,44 +185,44 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
 
         const attachmentIds = attachments.map(att => att.id);
 
-        onSubmit({ 
-            title, 
+        onSubmit({
+            title,
             content: editor.getHTML(),
             categoryId: selectedCategoryId,
             attachmentIds: attachmentIds,
         });
     };
 
-    return(
-        <Stack spacing={ 4 } >
-            <input type="file" ref={ fileInput } onChange={ handleFileChange } style={{ display: 'none' }} accept="image/*" />
+    return (
+        <Stack spacing={4} >
+            <input type="file" ref={fileInput} onChange={handleFileChange} style={{ display: 'none' }} accept="image/*" />
             <TextField
                 fullWidth
                 label="제목"
-                variant="standard"
+                variant="outlined"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
-            <FormControl fullWidth>
+            <FormControl fullWidth variant="outlined">
                 <InputLabel id="category-select-label">카테고리</InputLabel>
                 <Select
                     labelId="category-select-label"
-                    value={ selectedCategoryId }
+                    value={selectedCategoryId}
                     label="카테고리"
                     onChange={(e) => setSelectedCategoryId(e.target.value)}
                 >
-                    { categories.map((category) => (
-                        <MenuItem key={ category.id } value={ category.id }>
-                            { category.name }
+                    {categories.map((category) => (
+                        <MenuItem key={category.id} value={category.id}>
+                            {category.name}
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl>
             <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
                 <MenuBar
-                    editor={ editor }
-                    onImageClick={ handleImageButtonClick }
-                    onLinkClick={ setLink }
+                    editor={editor}
+                    onImageClick={handleImageButtonClick}
+                    onLinkClick={setLink}
                 />
                 <Box
                     onClick={() => editor.chain().focus().run()}
@@ -221,10 +236,10 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
                     <EditorContent editor={editor} />
                 </Box>
             </Box>
-            <Stack direction="row" spacing={ 2 } justifyContent="flex-end">
+            <Stack direction="row" spacing={2} justifyContent="flex-end">
                 <Button variant="outlined" color="secondary">취소</Button>
                 <Button variant="contained" onClick={handleSubmit} disabled={selectedCategoryId === '' || !title.trim() || editor.isEmpty}>
-                    { isEditMode ? '수정 완료' : '작성 완료' }
+                    {isEditMode ? '수정 완료' : '작성 완료'}
                 </Button>
             </Stack>
         </Stack>
