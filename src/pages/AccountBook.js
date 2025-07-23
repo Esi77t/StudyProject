@@ -104,109 +104,94 @@ const AccountBook = () => {
     }
 
     return (
-        <Container sx={{ my: 4 }}>
-            <Typography variant="h4" component="h1" gutterBottom fontWeight={600} sx={{ mb: 3 }}>
-                가계부
-            </Typography>
-            <Grid container spacing={4} alignItems="flex-start">
-                <Grid item xs={12} md={9} order={{ xs: 1, md: 2 }}>
-                    <Stack spacing={3}>
-                        <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}>
-                            <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
-                                <TextField
-                                    name="date"
-                                    label="날짜"
-                                    type="date"
-                                    value={formData.date}
-                                    onChange={handleFormChange}
-                                    InputLabelProps={{ shrink: true }}
-                                    size="small"
-                                    sx={{ width: { xs: '100%', md: 160 } }}
-                                />
-                                <FormControl size="small" sx={{ width: { xs: '100%', md: 120 } }}>
-                                    <InputLabel>수입/지출</InputLabel>
-                                    <Select
-                                        name="type"
-                                        value={formData.type}
-                                        label="수입/지출"
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', pt: '10vh', px: 2, }}>
+            <Box sx={{ width: '100%', maxWidth: '1200px' }}>
+                <Typography variant="h4" component="h1" gutterBottom fontWeight={600} sx={{ mb: 3 }}>
+                    가계부
+                </Typography>
+                <Grid container spacing={4} alignItems="flex-start">
+                    <Grid item xs={12} md={8} order={{ xs: 1, md: 2 }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, }}>
+                            <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 }, border: '1px solid', borderColor: 'divider' }}>
+                                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
+                                    <TextField
+                                        name="date"
+                                        label="날짜"
+                                        type="date"
+                                        value={formData.date}
                                         onChange={handleFormChange}
+                                        InputLabelProps={{ shrink: true }}
+                                        size="small"
+                                        sx={{ width: { xs: '100%', md: 160 } }}
+                                    />
+                                    <FormControl size="small" sx={{ width: { xs: '100%', md: 120 } }}>
+                                        <InputLabel>수입/지출</InputLabel>
+                                        <Select
+                                            name="type"
+                                            value={formData.type}
+                                            label="수입/지출"
+                                            onChange={handleFormChange}
+                                        >
+                                            <MenuItem value="지출">지출</MenuItem>
+                                            <MenuItem value="수입">수입</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                    <TextField
+                                        name="category"
+                                        label="분류"
+                                        value={formData.category}
+                                        onChange={handleFormChange}
+                                        size="small"
+                                        sx={{ width: { xs: '100%', md: 120 } }}
+                                    />
+                                    <TextField
+                                        name="description"
+                                        label="내용"
+                                        value={formData.description}
+                                        onChange={handleFormChange}
+                                        size="small"
+                                        sx={{ flexGrow: 1 }}
+                                    />
+                                    <TextField
+                                        name="amount"
+                                        label="금액"
+                                        type="number"
+                                        value={formData.amount}
+                                        onChange={handleFormChange}
+                                        size="small"
+                                        sx={{ width: { xs: '100%', md: 120 } }}
+                                    />
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        sx={{ width: { xs: '100%', md: 'auto' }, whiteSpace: 'nowrap' }}
                                     >
-                                        <MenuItem value="지출">지출</MenuItem>
-                                        <MenuItem value="수입">수입</MenuItem>
-                                    </Select>
-                                </FormControl>
-                                <TextField
-                                    name="category"
-                                    label="분류"
-                                    value={formData.category}
-                                    onChange={handleFormChange}
-                                    size="small"
-                                    sx={{ width: { xs: '100%', md: 120 } }}
-                                />
-                                <TextField
-                                    name="description"
-                                    label="내용"
-                                    value={formData.description}
-                                    onChange={handleFormChange}
-                                    size="small"
-                                    sx={{ flexGrow: 1 }}
-                                />
-                                <TextField
-                                    name="amount"
-                                    label="금액"
-                                    type="number"
-                                    value={formData.amount}
-                                    onChange={handleFormChange}
-                                    size="small"
-                                    sx={{ width: { xs: '100%', md: 120 } }}
-                                />
-                                <Button
-                                    type="submit"
-                                    variant="contained"
-                                    sx={{ width: { xs: '100%', md: 'auto' }, whiteSpace: 'nowrap' }}
-                                >
-                                    추가
-                                </Button>
-                            </Stack>
-                        </Paper>
-                        <TableContainer elevation={0} component={Paper} sx={{ p: 2 }}>
-                            <Table>
+                                        추가
+                                    </Button>
+                                </Stack>
+                            </Paper>
+                            <TableContainer component={Paper} elevation={0} sx={{ display: { xs: 'none', md: 'block' }, border: '1px solid', borderColor: 'divider', overflowX: 'auto', maxWidth: '100%', }}>
+                            <Table sx={{ minWidth: 800 }}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>날짜</TableCell>
-                                        <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>분류</TableCell>
+                                        <TableCell>분류</TableCell>
                                         <TableCell>내용</TableCell>
-                                        <TableCell align="right" sx={{ width: '15%', pr: 1 }}>금액</TableCell>
-                                        <TableCell align="center" sx={{ width: '10%', px: 1 }}>삭제</TableCell>
+                                        <TableCell align="right">금액</TableCell>
+                                        <TableCell align="center">삭제</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {loading ? (
-                                        <TableRow>
-                                            <TableCell colSpan={5} align="center">
-                                                <CircularProgress />
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : transactions.length > 0 ? (
+                                    {transactions.length > 0 ? (
                                         transactions.map((tr) => (
                                             <TableRow key={tr.id}>
                                                 <TableCell>{tr.date}</TableCell>
-                                                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
-                                                    {tr.category}
-                                                </TableCell>
+                                                <TableCell>{tr.category}</TableCell>
                                                 <TableCell>{tr.description}</TableCell>
-                                                <TableCell
-                                                    align="right"
-                                                    sx={{
-                                                        color: tr.type === '지출' ? 'error.main' : 'primary.main',
-                                                        fontWeight: 'bold',
-                                                        pr: 1,
-                                                    }}
-                                                >
-                                                    {tr.type === '지출' ? '-' : '+'}
-                                                    {tr.amount.toLocaleString()}원
+                                                <TableCell align="right" sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}>
+                                                    {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
                                                 </TableCell>
-                                                <TableCell align="center" sx={{ px: 1 }}>
+                                                <TableCell align="center">
                                                     <IconButton size="small" onClick={() => handleDelete(tr.id)}>
                                                         <DeleteIcon fontSize="inherit" />
                                                     </IconButton>
@@ -215,23 +200,48 @@ const AccountBook = () => {
                                         ))
                                     ) : (
                                         <TableRow>
-                                            <TableCell colSpan={5} align="center" sx={{ py: 5 }}>
-                                                거래 내역이 없습니다.
-                                            </TableCell>
+                                            <TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell>
                                         </TableRow>
                                     )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </Stack>
+                        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                            {transactions.length > 0 ? (
+                                transactions.map(tr => (
+                                    <Paper key={tr.id} variant="outlined" sx={{ p: 2, mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                        <Box sx={{ flexGrow: 1 }}>
+                                            <Typography variant="body2" color="text.secondary">{tr.date} &middot; {tr.category}</Typography>
+                                            <Typography fontWeight="medium">{tr.description}</Typography>
+                                            <Typography
+                                                sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}
+                                            >
+                                                {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <IconButton size="small" onClick={() => handleDelete(tr.id)}>
+                                                <DeleteIcon fontSize="small" />
+                                            </IconButton>
+                                        </Box>
+                                    </Paper>
+                                ))
+                            ) : (
+                                <Paper variant="outlined" sx={{ py: 5, textAlign: 'center' }}>
+                                    <Typography>거래 내역이 없습니다.</Typography>
+                                </Paper>
+                            )}
+                        </Box>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={12} md={4} order={{ xs: 2, md: 1 }} sx={{ position: 'sticky', top: 110 }}>
+                        <Box>
+                            <ExpenditureSidebar summary={summaryData} />
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={3} order={{ xs: 2, md: 1 }}>
-                    <Box>
-                        <ExpenditureSidebar summary={summaryData} />
-                    </Box>
-                </Grid>
-            </Grid>
-        </Container>
+            </Box>
+        </Box>
     )
 }
 

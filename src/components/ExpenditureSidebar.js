@@ -4,7 +4,7 @@ const ExpenditureSidebar = ({ summary }) => {
     if(!summary || typeof summary.currentMonthTotal !== 'number' || typeof summary.lastMonthTotal !== 'number') {
         return(
             <Paper elevation={0} sx={{ p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
-                <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+                <Typography variant="h6" sx={{ mb: 2, fontWeight: 'bold' }}>
                     월별 지출 요약
                 </Typography>
                 <Skeleton variant="text" width="80%" height={40} />
@@ -31,11 +31,11 @@ const ExpenditureSidebar = ({ summary }) => {
             <Box>
                 <Typography variant="body2" color="text.secondary">지난 달 지출</Typography>
                 { difference >= 0 ? (
-                    <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h6" color="primary.main" sx={{ fontWeight: 'bold', whiteSpace: 'nowrap' }}>
                         { difference.toLocaleString() }원 절약
                     </Typography>
                 ) : (
-                    <Typography variant="h6" color="error.main" sx={{ fontWeight: 'bold' }}>
+                    <Typography variant="h6" color="error.main" sx={{ fontWeight: 'bold', whiteSpace: 'nowrap' }}>
                         { Math.abs(difference).toLocaleString() }원 추가 지출
                     </Typography>
                 )}

@@ -10,7 +10,7 @@ import { useContext } from 'react';
 import PostDetail from './pages/PostDetail';
 import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import AccountBook from './pages/AccountBook';
 import NotFoundPage from './pages/NotFoundPage';
 import FindIdPage from './pages/FindIdPage';
@@ -22,28 +22,28 @@ function App() {
     return (
         <BrowserRouter>
             <Header />
-            <Box sx={{ paddingTop: '110px' }}>
-                <Routes>
-                    <Route path="/" element={ <Navigate to="/accountbook" replace /> } />
-                    <Route path="/login" element={ <Signin /> } />
-                    <Route path="/find-id" element={ <FindIdPage /> } />
-                    <Route path="/signup" element={ <Signup /> } />
-                    <Route path="/accountbook" element={ <AccountBook /> } />
-                    <Route path="/board" element={ <DevBoard /> } />
-                    <Route path="/board/:id" element={ <PostDetail /> } />
-                    <Route path="/board/write" element={ <Editor /> } />
-                    <Route path="/mypage" element={
-                        <PrivateRoute isLoggedIn={ isLoggedIn }>
-                            <MyPage />
-                        </PrivateRoute>
-                    } />
-                    <Route path="/board/edit/:id" element={
-                        <PrivateRoute isLoggedIn={ isLoggedIn }>
-                            <Editor />
-                        </PrivateRoute>
-                    } />
-                    <Route path="*" element={ <NotFoundPage /> } />
-                </Routes>
+            <Box component="main" sx={{ paddingTop: '110px' }}>
+                    <Routes>
+                        <Route path="/" element={ <Navigate to="/accountbook" replace /> } />
+                        <Route path="/login" element={ <Signin /> } />
+                        <Route path="/find-id" element={ <FindIdPage /> } />
+                        <Route path="/signup" element={ <Signup /> } />
+                        <Route path="/accountbook" element={ <AccountBook /> } />
+                        <Route path="/board" element={ <DevBoard /> } />
+                        <Route path="/board/:id" element={ <PostDetail /> } />
+                        <Route path="/board/write" element={ <Editor /> } />
+                        <Route path="/mypage" element={
+                            <PrivateRoute isLoggedIn={ isLoggedIn }>
+                                <MyPage />
+                            </PrivateRoute>
+                        } />
+                        <Route path="/board/edit/:id" element={
+                            <PrivateRoute isLoggedIn={ isLoggedIn }>
+                                <Editor />
+                            </PrivateRoute>
+                        } />
+                        <Route path="*" element={ <NotFoundPage /> } />
+                    </Routes>
             </Box>
         </BrowserRouter>
     );

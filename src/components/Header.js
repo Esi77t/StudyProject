@@ -46,7 +46,6 @@ const Header = () => {
                     backgroundColor: 'background.paper',
                 }}
             >
-                {/* Top Bar (로그인, 회원가입 등) - 이 부분은 문제가 없으므로 그대로 둡니다. */}
                 <Box sx={{ height: { xs: 36, sm: 40 }, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
                         <Box sx={{ display: 'flex', gap: { xs: 1, sm: 2 }, alignItems: 'center' }}>
@@ -83,19 +82,15 @@ const Header = () => {
                         </Box>
                     </Container>
                 </Box>
-
-                {/* Main Navigation Bar - 이 부분이 수정됩니다. */}
                 <Box sx={{ height: { xs: 64, sm: 70 }, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <Container maxWidth="lg">
-                        {/* 변경점 1: Toolbar 정렬 방식 변경 */}
                         <Toolbar disableGutters sx={{ px: { xs: 1.5, sm: 2 }, justifyContent: 'space-between' }}>
-                            {/* 변경점 2: 모바일용 햄버거 메뉴 아이콘 추가 */}
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
                                 edge="start"
                                 onClick={handleDrawerToggle}
-                                sx={{ mr: 2, display: { md: 'none' } }} // md 사이즈 이상에서 숨김
+                                sx={{ mr: 2, display: { md: 'none' } }}
                             >
                                 <MenuIcon />
                             </IconButton>
@@ -110,7 +105,6 @@ const Header = () => {
                                     fontSize: { xs: '1.1rem', sm: '1.25rem' },
                                     color: 'inherit',
                                     textDecoration: 'none',
-                                    // 변경점 3: 로고가 중앙에 오도록 flexGrow 조정 및 좌우 마진 제거
                                     flexGrow: { xs: 1, md: 0 },
                                     textAlign: { xs: 'center', md: 'left' },
                                     mr: { xs: 0, md: 3 },
@@ -118,8 +112,6 @@ const Header = () => {
                             >
                                 MyAccountBook
                             </Typography>
-
-                            {/* 변경점 4: 기존 내비게이션 링크들을 모바일에선 숨김 */}
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center', height: '100%' }}>
                                 {navItem.map(({ label, path }) => (
                                     <Box
@@ -161,10 +153,7 @@ const Header = () => {
                                     </Box>
                                 ))}
                             </Box>
-
-                            {/* 변경점 5: 우측 공간 확보 (모바일에서는 햄버거 아이콘과 균형, 데스크톱에서는 로그인 버튼과 균형) */}
                             <Box sx={{ width: { xs: 48, md: 80 }, display: { xs: 'block', md: 'block' }, ml: { md: 3 } }} />
-
                         </Toolbar>
                     </Container>
                 </Box>
