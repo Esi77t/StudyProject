@@ -110,8 +110,8 @@ const DevBoard = () => {
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
             <Paper elevation={0} sx={{ p: 4 }}>
-                <Box sx={{ display: 'flex', flexDirection: { xs: '100%', md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
-                    <Box sx={{ width: { xs: '100%', md: 'row' }, flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: "column", md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
+                    <Box sx={{ width: { xs: '100%', md: '20%' }, flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
                         <CategorySidebar
                             categories={categories}
                             selectedCategoryId={selectedCategoryId}
