@@ -179,6 +179,12 @@ const PostDetail = () => {
                         '& code': {
                             fontFamily: 'monospace',
                         },
+                        '& img': {
+                            maxWidth: '100%',
+                            height: 'auto',
+                            display: 'block',
+                            borderRadius: '8px',
+                        }
                     }}
                 />
                 <Divider sx={{ my: 3 }} />
