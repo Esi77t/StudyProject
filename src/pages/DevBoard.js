@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper } from "@mui/material";
+import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import api from "../api/api";
 import CategorySidebar from "../components/CategorySidebar";
 import PostTable from "../components/PostTable";
 import { DevBlogContext } from "../context/DevBlogProvider";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const DevBoard = () => {
 
@@ -111,12 +112,19 @@ const DevBoard = () => {
         <Container maxWidth="lg" sx={{ my: 4 }}>
             <Paper elevation={0} sx={{ p: 4 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: "column", md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
-                    <Box sx={{ width: { xs: '100%', md: '20%' }, flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
-                        <CategorySidebar
-                            categories={categories}
-                            selectedCategoryId={selectedCategoryId}
-                            onSelectCategory={handleCategorySelect}
-                        />
+                    <Box sx={{ width: { xs: '100%', md: '20%' }, flexShrink: 0 }}>
+                        <Accordion elevation={0} sx={{ border: '1px border', borderColor: 'divider' }}>
+                            <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-control="category-panel-content" id="category-panel-header">
+                                <Typography variant="h6" fontWeight={600}>카테고리</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{ p: 0 }}>
+                                <CategorySidebar
+                                    categories={categories}
+                                    selectedCategoryId={selectedCategoryId}
+                                    onSelectCategory={handleCategorySelect}
+                                />
+                            </AccordionDetails>
+                        </Accordion>
                     </Box>
                     <Box sx={{ flexGrow: 1, width: '100%' }}>
                         <Stack spacing={3}>

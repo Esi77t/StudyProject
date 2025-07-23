@@ -2,10 +2,10 @@ import { List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/m
 
 const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) => {
     return(
-        <div>
-            <Typography variant="h6" sx={{ mb: 1, p: 1, fontWeight: 600 }}>
+        <List>
+            {/* <Typography variant="h6" sx={{ mb: 1, p: 1, fontWeight: 600 }}>
                 카테고리
-            </Typography>
+            </Typography> */}
             <List>
                 <ListItem disablePadding>
                     <ListItemButton
@@ -54,7 +54,7 @@ const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) =
                     </ListItem>
                 ))}
             </List>
-        </div>
+        </List>
     )
 }
 
