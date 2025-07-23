@@ -234,8 +234,8 @@ const AccountBook = () => {
                             </Box>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} lg={4} order={{ xs: 2, md: 1 }} sx={{ top: 100 }}>
-                        <Box>
+                    <Grid item xs={12} lg={4} order={{ xs: 2, md: 1 }}>
+                        <Box sx={{ position: 'sticky', top: 100 }}>
                             <ExpenditureSidebar summary={summaryData} />
                         </Box>
                     </Grid>
