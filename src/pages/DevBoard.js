@@ -120,15 +120,16 @@ const DevBoard = () => {
                     </Box>
                     <Box sx={{ flexGrow: 1, width: '100%' }}>
                         <Stack spacing={3}>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 2, md: 0 } }}>
                                 <Typography variant="h4" component="h2" fontWeight={600}>
                                     {displayTitle}
                                 </Typography>
-                                <Stack direction="row" spacing={1}>
+                                <Stack direction="row" spacing={1} sx={{ width: { xs: '100%', md: 'auto' } }}>
                                     <Select
                                         size="small"
                                         value={searchType}
                                         onChange={(e) => setSearchType(e.target.value)}
+                                        sx={{ flexGrow: 1 }}
                                     >
                                         <MenuItem value="title_content">제목+내용</MenuItem>
                                         <MenuItem value="title">제목</MenuItem>
@@ -148,6 +149,7 @@ const DevBoard = () => {
                                                 <SearchIcon size="small" sx={{ mr: 1, color: '#868686ff' }} />
                                             ),
                                         }}
+                                        sx={{ flexGrow: 2 }}
                                     />
                                     <Button variant="outlined" onClick={handleSearch}>검색</Button>
                                 </Stack>
