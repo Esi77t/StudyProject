@@ -12,7 +12,6 @@ const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) =
                         selected={selectedCategoryId === null}
                         onClick={() => onSelectCategory(null)}
                         sx={{
-                            borderRadius: 1,
                             '&.Mui-selected': {
                                 backgroundColor: '#a0a0a0ff',
                                 color: 'white',
@@ -35,7 +34,6 @@ const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) =
                             selected={selectedCategoryId === category.id}
                             onClick={() => onSelectCategory(category.id)}
                             sx={{
-                                borderRadius: 1,
                                 '&.Mui-selected': {
                                     backgroundColor: '#a0a0a0ff',
                                     color: 'white',

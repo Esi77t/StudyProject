@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, Pagination, MenuItem, Select, Paper, Accordion, AccordionSummary, AccordionDetails, Chip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import api from "../api/api";
@@ -113,7 +113,7 @@ const DevBoard = () => {
             <Paper elevation={0} sx={{ p: 4 }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: "column", md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
                     <Box sx={{ width: { xs: '100%', md: '20%' }, flexShrink: 0 }}>
-                        <Accordion elevation={0} sx={{ border: '1px border', borderColor: 'divider' }}>
+                        <Accordion elevation={0} sx={{ border: '1px solid', borderColor: 'divider' }}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-control="category-panel-content" id="category-panel-header">
                                 <Typography variant="h6" fontWeight={600}>카테고리</Typography>
                             </AccordionSummary>
@@ -162,19 +162,47 @@ const DevBoard = () => {
                                     <Button variant="outlined" onClick={handleSearch}>검색</Button>
                                 </Stack>
                             </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2, minHeight: 300 }}>
-                                {loading ? <CircularProgress /> : <PostTable posts={posts} />}
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2, minHeight: 300, width: '100%' }}>
+                                {loading ? (
+                                    <CircularProgress />
+                                ) : (
+                                    <Box sx={{ width: '100%' }}>
+                                        {/* 2-1. PC용 테이블 뷰 (md 사이즈 이상) */}
+                                        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                                            {/* PostTable 컴포넌트가 PC용 테이블을 렌더링한다고 가정 */}
+                                            <PostTable posts={posts} />
+                                        </Box>
+
+                                        {/* 2-2. 모바일용 카드 뷰 (md 사이즈 미만) */}
+                                        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                                            {posts.map((post) => (
+                                                <Paper
+                                                    key={post.id}
+                                                    variant="outlined"
+                                                    sx={{ p: 2, mb: 1.5, cursor: 'pointer' }}
+                                                    onClick={() => navigate(`/board/${post.id}`)} // navigate 함수 사용
+                                                >
+                                                    <Stack spacing={1}>
+                                                        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
+                                                            <Typography
+                                                                variant="h6"
+                                                                sx={{ fontWeight: 600, fontSize: '1rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                                                            >
+                                                                {post.title}
+                                                            </Typography>
+                                                            <Chip label={post.category?.name || '미분류'} size="small" sx={{ flexShrink: 0 }} />
+                                                        </Stack>
+                                                        <Stack direction="row" spacing={2} sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
+                                                            <span>{post.author}</span>
+                                                            <span>조회수 {post.views}</span>
+                                                        </Stack>
+                                                    </Stack>
+                                                </Paper>
+                                            ))}
+                                        </Box>
+                                    </Box>
+                                )}
                             </Box>
-                            {posts.length > 0 && (
-                                <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-                                    <Pagination
-                                        count={totalPages}
-                                        page={currentPage}
-                                        onChange={handlePageChange}
-                                        color="primary"
-                                    />
-                                </Box>
-                            )}
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button
                                     variant="contained"
