@@ -109,13 +109,8 @@ const AccountBook = () => {
                 가계부
             </Typography>
             <Grid container spacing={4} alignItems="flex-start">
-                <Grid item xs={12} sm={3}>
-                    <Box>
-                        <ExpenditureSidebar summary={summaryData} />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} sm={9}>
-                    <Stack spacing={3} sx={{ flexGrow: 1 }}>
+                <Grid item xs={12} md={9} order={{ xs: 1, md: 2 }}>
+                    <Stack spacing={3}>
                         <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 } }}>
                             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
                                 <TextField
@@ -126,9 +121,9 @@ const AccountBook = () => {
                                     onChange={handleFormChange}
                                     InputLabelProps={{ shrink: true }}
                                     size="small"
-                                    sx={{ width: '100%' }}
+                                    sx={{ width: { xs: '100%', md: 160 } }}
                                 />
-                                <FormControl size="small" sx={{ width: '100%' }}>
+                                <FormControl size="small" sx={{ width: { xs: '100%', md: 120 } }}>
                                     <InputLabel>수입/지출</InputLabel>
                                     <Select
                                         name="type"
@@ -140,10 +135,38 @@ const AccountBook = () => {
                                         <MenuItem value="수입">수입</MenuItem>
                                     </Select>
                                 </FormControl>
-                                <TextField name="category" label="분류" value={formData.category} onChange={handleFormChange} size="small" sx={{ width: '100%' }} />
-                                <TextField name="description" label="내용" value={formData.description} onChange={handleFormChange} size="small" sx={{ flexGrow: 1, width: '100%' }} />
-                                <TextField name="amount" label="금액" type="number" value={formData.amount} onChange={handleFormChange} size="small" sx={{ width: '100%' }} />
-                                <Button type="submit" variant="contained" sx={{ width: { xs: '100%', md: 'auto' } }}>추가</Button>
+                                <TextField
+                                    name="category"
+                                    label="분류"
+                                    value={formData.category}
+                                    onChange={handleFormChange}
+                                    size="small"
+                                    sx={{ width: { xs: '100%', md: 120 } }}
+                                />
+                                <TextField
+                                    name="description"
+                                    label="내용"
+                                    value={formData.description}
+                                    onChange={handleFormChange}
+                                    size="small"
+                                    sx={{ flexGrow: 1 }}
+                                />
+                                <TextField
+                                    name="amount"
+                                    label="금액"
+                                    type="number"
+                                    value={formData.amount}
+                                    onChange={handleFormChange}
+                                    size="small"
+                                    sx={{ width: { xs: '100%', md: 120 } }}
+                                />
+                                <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{ width: { xs: '100%', md: 'auto' }, whiteSpace: 'nowrap' }}
+                                >
+                                    추가
+                                </Button>
                             </Stack>
                         </Paper>
                         <TableContainer elevation={0} component={Paper} sx={{ p: 2 }}>
@@ -160,15 +183,26 @@ const AccountBook = () => {
                                 <TableBody>
                                     {loading ? (
                                         <TableRow>
-                                            <TableCell colSpan={5} align="center"><CircularProgress /></TableCell>
+                                            <TableCell colSpan={5} align="center">
+                                                <CircularProgress />
+                                            </TableCell>
                                         </TableRow>
                                     ) : transactions.length > 0 ? (
                                         transactions.map((tr) => (
                                             <TableRow key={tr.id}>
                                                 <TableCell>{tr.date}</TableCell>
-                                                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>{tr.category}</TableCell>
+                                                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                                                    {tr.category}
+                                                </TableCell>
                                                 <TableCell>{tr.description}</TableCell>
-                                                <TableCell align="right" sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold', pr: 1 }}>
+                                                <TableCell
+                                                    align="right"
+                                                    sx={{
+                                                        color: tr.type === '지출' ? 'error.main' : 'primary.main',
+                                                        fontWeight: 'bold',
+                                                        pr: 1,
+                                                    }}
+                                                >
                                                     {tr.type === '지출' ? '-' : '+'}
                                                     {tr.amount.toLocaleString()}원
                                                 </TableCell>
@@ -180,12 +214,21 @@ const AccountBook = () => {
                                             </TableRow>
                                         ))
                                     ) : (
-                                        <TableRow><TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell></TableRow>
+                                        <TableRow>
+                                            <TableCell colSpan={5} align="center" sx={{ py: 5 }}>
+                                                거래 내역이 없습니다.
+                                            </TableCell>
+                                        </TableRow>
                                     )}
                                 </TableBody>
                             </Table>
                         </TableContainer>
                     </Stack>
+                </Grid>
+                <Grid item xs={12} md={3} order={{ xs: 2, md: 1 }}>
+                    <Box>
+                        <ExpenditureSidebar summary={summaryData} />
+                    </Box>
                 </Grid>
             </Grid>
         </Container>

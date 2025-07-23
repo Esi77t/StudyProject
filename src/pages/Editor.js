@@ -66,20 +66,20 @@ const Editor = () => {
             alert("게시글 처리에 실패했습니다. 로그인 상태를 확인해주세요.");
         }
     };
-    
+
     if (loading) return <CircularProgress />;
 
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
-            <Paper elevation={ 2 } sx={{ p: 4 }}>
-                <Typography variant="h4" component="h2" align="center" fontWeight={ 600 } mb={ 4 }>
-                    { isEditMode ? '게시글 수정' : '새 게시글 작성' }
+            <Paper elevation={0} sx={{ p: 4 }}>
+                <Typography variant="h4" component="h2" align="center" fontWeight={600} mb={4}>
+                    {isEditMode ? '게시글 수정' : '새 게시글 작성'}
                 </Typography>
                 <PostForm
-                    initialTitle={ postData.title }
-                    initialContent={ postData.content }
-                    onSubmit={ handleSubmit }
-                    isEditMode={ isEditMode }
+                    initialTitle={postData.title}
+                    initialContent={postData.content}
+                    onSubmit={handleSubmit}
+                    isEditMode={isEditMode}
                 />
             </Paper>
         </Container>
