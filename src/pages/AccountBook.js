@@ -110,7 +110,7 @@ const AccountBook = () => {
                     가계부
                 </Typography>
                 <Grid container spacing={4} alignItems="flex-start">
-                    <Grid item xs={12} md={8} order={{ xs: 1, md: 2 }}>
+                    <Grid item xs={12} lg={8} order={{ xs: 1, md: 2 }}>
                         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, }}>
                             <Paper elevation={0} component="form" onSubmit={handleSubmit} sx={{ p: { xs: 2, sm: 3 }, border: '1px solid', borderColor: 'divider' }}>
                                 <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} alignItems="center">
@@ -171,70 +171,70 @@ const AccountBook = () => {
                                 </Stack>
                             </Paper>
                             <TableContainer component={Paper} elevation={0} sx={{ display: { xs: 'none', md: 'block' }, border: '1px solid', borderColor: 'divider', overflowX: 'auto', maxWidth: '100%', }}>
-                            <Table sx={{ minWidth: 800 }}>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>날짜</TableCell>
-                                        <TableCell>분류</TableCell>
-                                        <TableCell>내용</TableCell>
-                                        <TableCell align="right">금액</TableCell>
-                                        <TableCell align="center">삭제</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {transactions.length > 0 ? (
-                                        transactions.map((tr) => (
-                                            <TableRow key={tr.id}>
-                                                <TableCell>{tr.date}</TableCell>
-                                                <TableCell>{tr.category}</TableCell>
-                                                <TableCell>{tr.description}</TableCell>
-                                                <TableCell align="right" sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}>
-                                                    {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
-                                                </TableCell>
-                                                <TableCell align="center">
-                                                    <IconButton size="small" onClick={() => handleDelete(tr.id)}>
-                                                        <DeleteIcon fontSize="inherit" />
-                                                    </IconButton>
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
-                                    ) : (
+                                <Table sx={{ minWidth: 800 }}>
+                                    <TableHead>
                                         <TableRow>
-                                            <TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell>
+                                            <TableCell>날짜</TableCell>
+                                            <TableCell>분류</TableCell>
+                                            <TableCell>내용</TableCell>
+                                            <TableCell align="right">금액</TableCell>
+                                            <TableCell align="center">삭제</TableCell>
                                         </TableRow>
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                            {transactions.length > 0 ? (
-                                transactions.map(tr => (
-                                    <Paper key={tr.id} variant="outlined" sx={{ p: 2, mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
-                                        <Box sx={{ flexGrow: 1 }}>
-                                            <Typography variant="body2" color="text.secondary">{tr.date} &middot; {tr.category}</Typography>
-                                            <Typography fontWeight="medium">{tr.description}</Typography>
-                                            <Typography
-                                                sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}
-                                            >
-                                                {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <IconButton size="small" onClick={() => handleDelete(tr.id)}>
-                                                <DeleteIcon fontSize="small" />
-                                            </IconButton>
-                                        </Box>
+                                    </TableHead>
+                                    <TableBody>
+                                        {transactions.length > 0 ? (
+                                            transactions.map((tr) => (
+                                                <TableRow key={tr.id}>
+                                                    <TableCell>{tr.date}</TableCell>
+                                                    <TableCell>{tr.category}</TableCell>
+                                                    <TableCell>{tr.description}</TableCell>
+                                                    <TableCell align="right" sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}>
+                                                        {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <IconButton size="small" onClick={() => handleDelete(tr.id)}>
+                                                            <DeleteIcon fontSize="inherit" />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))
+                                        ) : (
+                                            <TableRow>
+                                                <TableCell colSpan={5} align="center" sx={{ py: 5 }}>거래 내역이 없습니다.</TableCell>
+                                            </TableRow>
+                                        )}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+                                {transactions.length > 0 ? (
+                                    transactions.map(tr => (
+                                        <Paper key={tr.id} variant="outlined" sx={{ p: 2, mb: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+                                            <Box sx={{ flexGrow: 1 }}>
+                                                <Typography variant="body2" color="text.secondary">{tr.date} &middot; {tr.category}</Typography>
+                                                <Typography fontWeight="medium">{tr.description}</Typography>
+                                                <Typography
+                                                    sx={{ color: tr.type === '지출' ? 'error.main' : 'primary.main', fontWeight: 'bold' }}
+                                                >
+                                                    {tr.type === '지출' ? '-' : '+'} {tr.amount.toLocaleString()}원
+                                                </Typography>
+                                            </Box>
+                                            <Box>
+                                                <IconButton size="small" onClick={() => handleDelete(tr.id)}>
+                                                    <DeleteIcon fontSize="small" />
+                                                </IconButton>
+                                            </Box>
+                                        </Paper>
+                                    ))
+                                ) : (
+                                    <Paper variant="outlined" sx={{ py: 5, textAlign: 'center' }}>
+                                        <Typography>거래 내역이 없습니다.</Typography>
                                     </Paper>
-                                ))
-                            ) : (
-                                <Paper variant="outlined" sx={{ py: 5, textAlign: 'center' }}>
-                                    <Typography>거래 내역이 없습니다.</Typography>
-                                </Paper>
-                            )}
-                        </Box>
+                                )}
+                            </Box>
                         </Box>
                     </Grid>
-                    <Grid item xs={12} md={4} order={{ xs: 2, md: 1 }} sx={{ position: 'sticky', top: 110 }}>
+                    <Grid item xs={12} lg={4} order={{ xs: 2, md: 1 }} sx={{ top: 100 }}>
                         <Box>
                             <ExpenditureSidebar summary={summaryData} />
                         </Box>
