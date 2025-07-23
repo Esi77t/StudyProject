@@ -104,7 +104,7 @@ const AccountBook = () => {
     }
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', pt: '10vh', px: 2, }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', minHeight: '100vh', pt: '4vh', px: 2, }}>
             <Box sx={{ width: '100%', maxWidth: '1200px' }}>
                 <Typography variant="h4" component="h1" gutterBottom fontWeight={600} sx={{ mb: 3 }}>
                     가계부
