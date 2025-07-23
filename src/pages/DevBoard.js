@@ -9,7 +9,7 @@ import PostTable from "../components/PostTable";
 import { DevBlogContext } from "../context/DevBlogProvider";
 
 const DevBoard = () => {
-    
+
     const navigate = useNavigate();
 
     const [posts, setPosts] = useState([]);
@@ -49,7 +49,7 @@ const DevBoard = () => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                if(categories.length === 0) {
+                if (categories.length === 0) {
                     const categoriesRes = await api.get('/api/categories');
                     setCategories(categoriesRes.data);
                 }
@@ -63,7 +63,7 @@ const DevBoard = () => {
                 };
 
                 const postsRes = await api.get('/api/posts', { params });
-                
+
                 setPosts(postsRes.data.content);
                 setTotalPages(postsRes.data.totalPages);
 
@@ -98,7 +98,7 @@ const DevBoard = () => {
     }
 
     const handleWrite = () => {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             alert("로그인이 필요합니다.");
             navigate("/login");
             return;
@@ -109,25 +109,25 @@ const DevBoard = () => {
 
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
-            <Paper elevation={ 0 } sx={{ p: 4 }}>
-                <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 4 }}>
-                    <Box sx={{ flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
+            <Paper elevation={0} sx={{ p: 4 }}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: '100%', md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
+                    <Box sx={{ width: { xs: '100%', md: 'row' }, flexBasis: '20%', flexShrink: 0, p: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}>
                         <CategorySidebar
-                            categories={ categories }
-                            selectedCategoryId={ selectedCategoryId }
-                            onSelectCategory={ handleCategorySelect }
+                            categories={categories}
+                            selectedCategoryId={selectedCategoryId}
+                            onSelectCategory={handleCategorySelect}
                         />
                     </Box>
-                    <Box sx={{ flexGrow: 1 }}>
+                    <Box sx={{ flexGrow: 1, width: '100%' }}>
                         <Stack spacing={3}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <Typography variant="h4" component="h2" fontWeight={ 600 }>
-                                    { displayTitle }
+                                <Typography variant="h4" component="h2" fontWeight={600}>
+                                    {displayTitle}
                                 </Typography>
-                                <Stack direction="row" spacing={ 1 }>
+                                <Stack direction="row" spacing={1}>
                                     <Select
                                         size="small"
-                                        value={ searchType }
+                                        value={searchType}
                                         onChange={(e) => setSearchType(e.target.value)}
                                     >
                                         <MenuItem value="title_content">제목+내용</MenuItem>
@@ -140,7 +140,7 @@ const DevBoard = () => {
                                         size="small"
                                         variant="outlined"
                                         placeholder="검색"
-                                        value={ keyword }
+                                        value={keyword}
                                         onChange={(e) => setKeyword(e.target.value)}
                                         onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                                         InputProps={{
@@ -149,27 +149,28 @@ const DevBoard = () => {
                                             ),
                                         }}
                                     />
+                                    <Button variant="outlined" onClick={handleSearch}>검색</Button>
                                 </Stack>
                             </Box>
-                            <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-                                { loading ? <CircularProgress /> : <PostTable posts={ posts } /> }
+                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 2, minHeight: 300 }}>
+                                {loading ? <CircularProgress /> : <PostTable posts={posts} />}
                             </Box>
                             {posts.length > 0 && (
-                                    <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
-                                        <Pagination
-                                            count={ totalPages }
-                                            page={ currentPage }
-                                            onChange={ handlePageChange }
-                                            color="primary"
-                                        />
-                                    </Box>
-                                )}
+                                <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
+                                    <Pagination
+                                        count={totalPages}
+                                        page={currentPage}
+                                        onChange={handlePageChange}
+                                        color="primary"
+                                    />
+                                </Box>
+                            )}
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button
                                     variant="contained"
                                     color="primary"
                                     startIcon={<CreateIcon />}
-                                    onClick={ handleWrite }
+                                    onClick={handleWrite}
                                 >
                                     글쓰기
                                 </Button>
