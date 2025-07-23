@@ -186,7 +186,7 @@ const DevBoard = () => {
                                                             >
                                                                 {post.title}
                                                             </Typography>
-                                                            <Chip label={post.category_id.name || '미분류'} size="small" sx={{ flexShrink: 0 }} />
+                                                            <Chip label={post.categoryName || '미분류'} size="small" sx={{ flexShrink: 0 }} />
                                                         </Stack>
                                                         <Stack direction="row" spacing={2} sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>
                                                             <span>{post.author}</span>
