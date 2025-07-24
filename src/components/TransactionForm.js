@@ -39,7 +39,7 @@ const TransactionForm = ({ onSubmit }) => {
                 spacing={{ xs: 1.5, md: 2 }}
                 alignItems="center"
             >
-                <TextField name="date" label="날짜" type="date" value={formData.date} onChange={handleFormChange} InputLabelProps={{ shrink: true }} size="small" sx={{ width: { xs: '100%', md: 160 } }}/>
+                <TextField name="date" label="날짜" type="date" value={formData.date} onChange={handleFormChange} InputLabelProps={{ shrink: true }} size="small" sx={{ width: { xs: '100%', md: 180 } }}/>
                 <FormControl size="small" sx={{ width: { xs: '100%', md: 120 } }}>
                     <InputLabel>수입/지출</InputLabel>
                     <Select name="type" value={formData.type} label="수입/지출" onChange={handleFormChange}>
@@ -48,7 +48,7 @@ const TransactionForm = ({ onSubmit }) => {
                     </Select>
                 </FormControl>
                 <TextField name="category" label="분류" value={formData.category} onChange={handleFormChange} size="small" sx={{ width: { xs: '100%', md: 120 } }}/>
-                <TextField name="description" label="내용" value={formData.description} onChange={handleFormChange} size="small" sx={{ flexGrow: 1, width: '100%' }}/>
+                <TextField name="description" label="내용" value={formData.description} onChange={handleFormChange} size="small" sx={{ flexGrow: 1, width: { xs: '100%', md: 'auto' }, minWidth: { md: '150px' } }}/>
                 <TextField name="amount" label="금액" type="number" value={formData.amount} onChange={handleFormChange} size="small" sx={{ width: { xs: '100%', md: 120 } }}/>
                 <Button type="submit" variant="contained" sx={{ width: { xs: '100%', md: 'auto' }, whiteSpace: 'nowrap' }}>
                     추가
