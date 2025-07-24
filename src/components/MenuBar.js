@@ -18,8 +18,9 @@ const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
                 border: 'none',
                 borderRadius: 1,
                 fontWeight: 'bold',
-                mx: { xs: 0.2, md: 0 },
-                my: { xs: 0.5, md: 0 },
+                height: { xs: '32px', md: 'auto' },
+                minWidth: { xs: '32px', md: '40px' },
+                p: { xs: 0.5, md: 1 },
                 '&.Mui-disabled': {
                     border: 'none',
                 },
@@ -33,9 +34,9 @@ const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
                 my: 1,
             }
         }}>
-            <ToggleButton value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })}>H1</ToggleButton>
-            <ToggleButton value="h2" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} selected={editor.isActive('heading', { level: 2 })}>H2</ToggleButton>
-            <ToggleButton value="p" size="small" onClick={() => editor.chain().focus().setParagraph().run()} selected={editor.isActive('paragraph')} >P</ToggleButton>
+            <ToggleButton className="text-button" value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })}>H1</ToggleButton>
+            <ToggleButton className="text-button" value="h2" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} selected={editor.isActive('heading', { level: 2 })}>H2</ToggleButton>
+            <ToggleButton className="text-button" value="p" size="small" onClick={() => editor.chain().focus().setParagraph().run()} selected={editor.isActive('paragraph')} >P</ToggleButton>
             <Divider flexItem orientation="vertical"/>
             <ToggleButton size="small" value="undo" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
                 <Undo />
