@@ -11,7 +11,7 @@ const PostList = ({ posts }) => {
 
     return (
         <>
-            <TableContainer component={Paper} elevation={0}>
+            <TableContainer component={Paper} elevation={0} sx={{ display: { xs: 'none', md: 'block' } }}>
                 <Table stickyHeader aria-label="post list table" sx={{ tableLayout: 'fixed' }}>
                     <TableHead>
                         <TableRow>

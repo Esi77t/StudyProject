@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, MenuItem, Select, Paper, Accordion, AccordionSummary, AccordionDetails, Pagination } from "@mui/material";
+import { Container, Typography, TextField, Box, Stack, CircularProgress, Button, MenuItem, Select, Paper, Accordion, AccordionSummary, AccordionDetails, Pagination, useTheme, useMediaQuery } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import CategorySidebar from "../components/CategorySidebar";
@@ -13,6 +13,14 @@ const DevBoard = () => {
 
     const navigate = useNavigate();
     const { isLoggedIn } = useContext(DevBlogContext);
+
+    const theme = useTheme();
+    const isDeskTop = useMediaQuery(theme.breakpoints.up('md'));
+    const [isAccordionOpen, setIsAccordionOpen] = useState(isDeskTop);
+
+    useEffect(() => {
+        setIsAccordionOpen(isDeskTop);
+    }, [isDeskTop]);
 
     const {
         posts,
@@ -44,9 +52,8 @@ const DevBoard = () => {
         <Container maxWidth="lg" sx={{ my: 4 }}>
             <Paper elevation={0} sx={{ p: 4, border: '1px solid', borderColor: 'divider' }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: "column", md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
-                    {/* 사이드바 영역 */}
                     <Box sx={{ width: { xs: '100%', md: '20%' }, flexShrink: 0 }}>
-                        <Accordion defaultExpanded elevation={0} sx={{ border: '1px solid', borderColor: 'divider' }}>
+                        <Accordion onChange={() => setIsAccordionOpen(!isAccordionOpen)} elevation={0} sx={{ border: '1px solid', borderColor: 'divider' }}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                                 <Typography variant="h6" fontWeight={600}>카테고리</Typography>
                             </AccordionSummary>
