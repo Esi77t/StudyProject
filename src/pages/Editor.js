@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { CircularProgress, Container, Paper, Typography } from "@mui/material";
 import api from "../api/api";
 import PostForm from "../components/PostForm";
