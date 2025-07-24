@@ -10,7 +10,7 @@ import { useContext } from 'react';
 import PostDetail from './pages/PostDetail';
 import Editor from './pages/Editor';
 import PrivateRoute from './components/PrivateRoute';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import AccountBook from './pages/AccountBook';
 import NotFoundPage from './pages/NotFoundPage';
 import FindIdPage from './pages/FindIdPage';

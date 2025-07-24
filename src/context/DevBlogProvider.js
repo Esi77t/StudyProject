@@ -26,9 +26,9 @@ const DevBlogProvider = ({ children }) => {
             }
         },
         typography: {
-            fontFamily: "'Noto Sans KR', sans-serif",
+            fontFamily: "'Pretendard', sans-serif",
         }
-    }))
+    }), [isDarkMode]);
 
     useEffect(() => {
         const checkLoginStatus = async () => {

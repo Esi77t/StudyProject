@@ -1,4 +1,4 @@
-import { List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) => {
     return(

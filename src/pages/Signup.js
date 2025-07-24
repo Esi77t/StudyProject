@@ -144,7 +144,7 @@ const Signup = () => {
         } catch (error) {
             console.error("아이디 중복 체크 실패: ", error);
         }
-    })
+    }, [username, userNameError]);
 
     const handleNicknameBlur = useCallback(async () => {
         if(!nickname || nicknameError) return;
@@ -156,7 +156,7 @@ const Signup = () => {
         } catch (error) {
             console.error("닉네임 중복 체크 실패: ", error);
         }
-    })
+    }, [nickname, nicknameError]);
 
     return(
         <Container component="main" maxWidth="sm">

@@ -11,7 +11,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import api from "../api/api";
 import History from "@tiptap/extension-history";
-import "../css/PostForm.css";
+// import "../css/PostForm.css";
 
 const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
     if (!editor) return null;
@@ -154,7 +154,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
         }
 
         editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-    })
+    }, [editor]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -237,7 +237,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
                 </Box>
             </Box>
             <Stack direction="row" spacing={2} justifyContent="flex-end">
-                <Button variant="outlined" color="secondary">취소</Button>
+                <Button variant="outlined" color="error">취소</Button>
                 <Button variant="contained" onClick={handleSubmit} disabled={selectedCategoryId === '' || !title.trim() || editor.isEmpty}>
                     {isEditMode ? '수정 완료' : '작성 완료'}
                 </Button>
