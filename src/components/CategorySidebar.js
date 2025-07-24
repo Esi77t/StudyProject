@@ -3,9 +3,6 @@ import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) => {
     return(
         <List>
-            {/* <Typography variant="h6" sx={{ mb: 1, p: 1, fontWeight: 600 }}>
-                카테고리
-            </Typography> */}
             <List>
                 <ListItem disablePadding>
                     <ListItemButton

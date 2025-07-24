@@ -10,10 +10,10 @@ import useBoardData from "../hooks/useBoardData";
 import PostList from "../components/PostList";
 
 const DevBoard = () => {
+
     const navigate = useNavigate();
     const { isLoggedIn } = useContext(DevBlogContext);
 
-    // ★★★ 2. 커스텀 훅을 사용하여 모든 로직과 상태를 가져옴 ★★★
     const {
         posts,
         categories,
@@ -59,8 +59,6 @@ const DevBoard = () => {
                             </AccordionDetails>
                         </Accordion>
                     </Box>
-                    
-                    {/* 메인 컨텐츠 영역 */}
                     <Box sx={{ flexGrow: 1, width: '100%' }}>
                         <Stack spacing={3}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 2, md: 0 } }}>
@@ -86,15 +84,12 @@ const DevBoard = () => {
                                     <Button variant="outlined" onClick={handleSearch}>검색</Button>
                                 </Stack>
                             </Box>
-                            
                             {loading ? <CircularProgress /> : <PostList posts={posts} />}
-                            
                             {totalPages > 1 && (
                                 <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
                                     <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
                                 </Box>
                             )}
-
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button variant="contained" color="primary" startIcon={<CreateIcon />} onClick={handleWrite}>글쓰기</Button>
                             </Box>
