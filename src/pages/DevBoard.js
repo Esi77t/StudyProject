@@ -45,7 +45,7 @@ const DevBoard = () => {
             navigate("/login");
             return;
         }
-        navigate('/devboard/write');
+        navigate('/board/write');
     };
 
     return (

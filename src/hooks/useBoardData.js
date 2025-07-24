@@ -44,7 +44,6 @@ const useBoardData = () => {
                 const postsRes = await api.get('/api/posts', { params });
                 setPosts(postsRes.data.content);
                 setTotalPages(postsRes.data.totalPages);
-
             } catch (error) {
                 console.error("데이터를 불러오는데 실패했습니다.", error);
             } finally {
