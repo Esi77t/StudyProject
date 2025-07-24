@@ -176,7 +176,7 @@ const PostForm = ({ initialTitle = '', initialContent = '', onSubmit, isEditMode
                     onClick={() => editor.chain().focus().run()}
                     sx={{
                         p: 2,
-                        minHeight: 400,
+                        minHeight: { xs: '60vh', md: 400 },
                         cursor: 'text',
                         '& .tiptap': { outline: 'none' },
                     }}

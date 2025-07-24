@@ -71,7 +71,7 @@ const Editor = () => {
 
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
-            <Paper elevation={0} sx={{ p: 4 }}>
+            <Paper elevation={0} sx={{ p: { xs: 2, sm: 4 } }}>
                 <Typography variant="h4" component="h2" align="center" fontWeight={600} mb={4}>
                     {isEditMode ? '게시글 수정' : '새 게시글 작성'}
                 </Typography>

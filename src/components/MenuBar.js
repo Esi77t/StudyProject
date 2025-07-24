@@ -19,8 +19,9 @@ const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
                 borderRadius: 1,
                 fontWeight: 'bold',
                 height: { xs: '32px', md: 'auto' },
-                minWidth: { xs: '32px', md: '40px' },
                 p: { xs: 0.5, md: 1 },
+                mx: { xs: 0.2, md: 0 },
+                my: { xs: 0.5, md: 0 },
                 '&.Mui-disabled': {
                     border: 'none',
                 },
@@ -32,6 +33,10 @@ const MenuBar = ({ editor, onImageClick, onLinkClick }) => {
             '& .MuiDivider-root': {
                 mx: 0.5,
                 my: 1,
+            },
+            '& .text-button': {
+                fontWeight: 'bold',
+                minWidth: { xs: '36px', md: '40px' },
             }
         }}>
             <ToggleButton className="text-button" value="h1" size="small" onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} selected={editor.isActive('heading', { level: 1 })}>H1</ToggleButton>
