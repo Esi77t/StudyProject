@@ -4,14 +4,16 @@ import { Container, Typography, TextField, Box, Stack, CircularProgress, Button,
 import SearchIcon from "@mui/icons-material/Search";
 import CreateIcon from "@mui/icons-material/Create";
 import CategorySidebar from "../components/CategorySidebar";
-import PostTable from "../components/PostTable";
 import { DevBlogContext } from "../context/DevBlogProvider";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useBoardData from "../hooks/useBoardData";
+import PostList from "../components/PostList";
 
 const DevBoard = () => {
     const navigate = useNavigate();
     const { isLoggedIn } = useContext(DevBlogContext);
+
+    // ★★★ 2. 커스텀 훅을 사용하여 모든 로직과 상태를 가져옴 ★★★
     const {
         posts,
         categories,
@@ -35,13 +37,14 @@ const DevBoard = () => {
             navigate("/login");
             return;
         }
-        navigate('/board/write');
+        navigate('/devboard/write');
     };
 
     return (
         <Container maxWidth="lg" sx={{ my: 4 }}>
             <Paper elevation={0} sx={{ p: 4, border: '1px solid', borderColor: 'divider' }}>
                 <Box sx={{ display: 'flex', flexDirection: { xs: "column", md: 'row' }, alignItems: 'flex-start', gap: 4 }}>
+                    {/* 사이드바 영역 */}
                     <Box sx={{ width: { xs: '100%', md: '20%' }, flexShrink: 0 }}>
                         <Accordion defaultExpanded elevation={0} sx={{ border: '1px solid', borderColor: 'divider' }}>
                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -56,6 +59,8 @@ const DevBoard = () => {
                             </AccordionDetails>
                         </Accordion>
                     </Box>
+                    
+                    {/* 메인 컨텐츠 영역 */}
                     <Box sx={{ flexGrow: 1, width: '100%' }}>
                         <Stack spacing={3}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: { xs: 'column', md: 'row' }, alignItems: { xs: 'flex-start', md: 'center' }, gap: { xs: 2, md: 0 } }}>
@@ -81,12 +86,15 @@ const DevBoard = () => {
                                     <Button variant="outlined" onClick={handleSearch}>검색</Button>
                                 </Stack>
                             </Box>
-                            {loading ? <CircularProgress /> : <PostTable posts={posts} />}
-                            {posts.length > 0 && (
+                            
+                            {loading ? <CircularProgress /> : <PostList posts={posts} />}
+                            
+                            {totalPages > 1 && (
                                 <Box sx={{ display: 'flex', justifyContent: 'center', py: 2 }}>
                                     <Pagination count={totalPages} page={currentPage} onChange={handlePageChange} color="primary" />
                                 </Box>
                             )}
+
                             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                 <Button variant="contained" color="primary" startIcon={<CreateIcon />} onClick={handleWrite}>글쓰기</Button>
                             </Box>
@@ -96,6 +104,6 @@ const DevBoard = () => {
             </Paper>
         </Container>
     );
-};
+}
 
 export default DevBoard;

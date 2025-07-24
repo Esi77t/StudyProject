@@ -1,7 +1,7 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { useNavigate } from "react-router-dom"
 
-const PostTable = ({ posts }) => {
+const PostList = ({ posts }) => {
 
     const navigate = useNavigate();
 
@@ -45,4 +45,4 @@ const PostTable = ({ posts }) => {
     )
 }
 
-export default PostTable;
+export default PostList;
