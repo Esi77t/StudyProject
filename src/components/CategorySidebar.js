@@ -1,7 +1,7 @@
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 
 const CategorySidebar = ({ categories, selectedCategoryId, onSelectCategory }) => {
-    return(
+    return (
         <List>
             <List>
                 <ListItem disablePadding>
